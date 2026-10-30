@@ -11,7 +11,7 @@ Two containerlab labs for Arista cEOS-lab. Each one runs with the `arista_ceos` 
 
 - containerlab, tested on v0.77.0 and v0.82.0
 - A Linux host with Docker. No KVM needed, cEOS is a plain container.
-- About 1.5 GB of memory per cEOS node, measured at 1.2 to 1.45 GiB
+- About 1.5 GB of memory per cEOS node, measured at 1.15 to 1.45 GiB
 - An x86_64 cEOS image, which you bring yourself
 
 ## Get the image
