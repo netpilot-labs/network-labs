@@ -1,0 +1,35 @@
+name: mtcna-practice
+
+topology:
+  kinds:
+    mikrotik_chr:
+      image: mikrotik/chr:7.24.5
+    linux:
+      image: ghcr.io/srl-labs/network-multitool:latest
+
+  nodes:
+    gw:
+      kind: mikrotik_chr
+      startup-config: gw.rsc
+    isp:
+      kind: mikrotik_chr
+      startup-config: isp.rsc
+    web:
+      kind: linux
+      exec:
+        - ip addr add 203.0.113.10/24 dev eth1
+        - ip route add 198.51.100.0/24 via 203.0.113.1
+    pc1:
+      kind: linux
+      exec:
+        - ip link set eth1 up
+    pc2:
+      kind: linux
+      exec:
+        - ip link set eth1 up
+
+  links:
+    - endpoints: ["gw:ether2", "isp:ether2"]
+    - endpoints: ["isp:ether3", "web:eth1"]
+    - endpoints: ["gw:ether3", "pc1:eth1"]
+    - endpoints: ["gw:ether4", "pc2:eth1"]
