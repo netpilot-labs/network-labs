@@ -1,0 +1,29 @@
+name: jncia-lab
+topology:
+  nodes:
+    r1:
+      kind: juniper_vjunosrouter
+      image: vrnetlab/juniper_vjunos-router:26.2R1.7
+      startup-config: r1.txt.partial
+    r2:
+      kind: juniper_vjunosrouter
+      image: vrnetlab/juniper_vjunos-router:26.2R1.7
+      startup-config: r2.txt.partial
+    h1:
+      kind: linux
+      image: ghcr.io/srl-labs/network-multitool:latest
+      exec:
+        - ip addr add 10.1.1.10/24 dev eth1
+        - ip link set eth1 mtu 1500
+        - ip route add 10.0.0.0/8 via 10.1.1.1
+    h2:
+      kind: linux
+      image: ghcr.io/srl-labs/network-multitool:latest
+      exec:
+        - ip addr add 10.2.2.10/24 dev eth1
+        - ip link set eth1 mtu 1500
+        - ip route add 10.0.0.0/8 via 10.2.2.1
+  links:
+    - endpoints: ["r1:ge-0/0/0", "r2:ge-0/0/0"]
+    - endpoints: ["r1:ge-0/0/1", "h1:eth1"]
+    - endpoints: ["r2:ge-0/0/1", "h2:eth1"]
