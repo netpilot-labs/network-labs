@@ -1,12 +1,13 @@
 # MikroTik labs for containerlab
 
-Three containerlab labs for MikroTik RouterOS CHR. Each one runs on the official `mikrotik/chr` image with the `mikrotik_chr` kind, which the NetPilot team contributed to containerlab and which shipped in v0.82.0.
+Four containerlab labs for MikroTik RouterOS CHR. Each one runs on the official `mikrotik/chr` image with the `mikrotik_chr` kind, which the NetPilot team contributed to containerlab and which shipped in v0.82.0.
 
 | Lab | What it builds | Tutorial |
 |---|---|---|
 | [01-chr-two-routers](01-chr-two-routers) | Two CHR routers with OSPF over one link | [Run the official MikroTik CHR image in containerlab](https://www.netpilot.io/blog/mikrotik-chr-containerlab) |
 | [02-mtcna-practice](02-mtcna-practice) | Gateway, ISP, web server and two PCs for DHCP, bridging, NAT, firewall, queues and PPPoE | [MTCNA practice lab](https://www.netpilot.io/blog/mtcna-practice-lab) |
 | [03-dual-wan-pcc](03-dual-wan-pcc) | Dual WAN PCC load balancing with failover on RouterOS 7 | [MikroTik load balancing with PCC](https://www.netpilot.io/blog/mikrotik-load-balancing-pcc) |
+| [04-mikrotrick-hardening](04-mikrotrick-hardening) | An exposed edge router, the audit after MikroTrick, and a firewall that keeps management on the LAN | [MikroTik firewall hardening after MikroTrick](https://www.netpilot.io/blog/mikrotik-firewall-hardening) |
 
 ## Build this from one prompt
 
@@ -15,6 +16,7 @@ No Linux host? On [NetPilot](https://www.netpilot.io/mikrotik-lab) an AI agent b
 - [Two CHR routers](https://app.netpilot.io/?prompt=Build%20two%20MikroTik%20CHR%20routers%20connected%20on%20ether2%2C%20with%20OSPF%20in%20area%200%20and%20a%20loopback%20on%20each.%20Verify%20the%20adjacency%20and%20ping%20loopback%20to%20loopback.)
 - [MTCNA practice](https://app.netpilot.io/?prompt=Build%20an%20MTCNA%20practice%20lab%3A%20a%20MikroTik%20CHR%20gateway%20with%20a%20DHCP%20WAN%20from%20a%20CHR%20ISP%20router%2C%20a%20LAN%20bridge%20with%20a%20DHCP%20server%20and%20two%20Linux%20PCs%2C%20and%20a%20Linux%20web%20server%20behind%20the%20ISP.%20Leave%20NAT%20and%20the%20firewall%20for%20me%20to%20configure.)
 - [Dual WAN failover](https://app.netpilot.io/?prompt=Build%20me%20a%20MikroTik%20dual%20WAN%20lab%20on%20RouterOS%207%3A%20a%20gateway%20with%20uplinks%20to%20two%20ISP%20routers%2C%20both%20reaching%20one%20web%20server%2C%20and%20a%20PC%20on%20the%20LAN.%20Set%20up%20PCC%20load%20balancing%20with%20failover.%20Then%20kill%20ISP-1%20upstream%20while%20the%20gateway%20link%20stays%20up%2C%20and%20measure%20how%20long%20the%20PC%20loses%20traffic.)
+- [Audit and harden after MikroTrick](https://app.netpilot.io/?prompt=Build%20a%20small%20lab%20on%20real%20MikroTik%20RouterOS%3A%20EDGE-RTR%20with%20a%20LAN%20PC%20behind%20it%20and%20an%20outside%20host%20on%20the%20WAN%20side.%20Set%20EDGE-RTR%20up%20the%20way%20many%20routers%20really%20end%20up%3A%20NAT%20for%20the%20LAN%20but%20no%20firewall%20rules%2C%20so%20SSH%2C%20WebFig%2C%20WinBox%20and%20the%20bandwidth%20test%20server%20all%20answer%20from%20the%20WAN.%20From%20the%20outside%20host%2C%20scan%20the%20router%20and%20show%20what%20answers.%20Then%20audit%20it%20against%20MikroTik%27s%20September%202026%20MikroTrick%20advisory%3A%20the%20version%20against%20the%20fixed%20releases%2C%20IP%20services%2C%20the%20input%20chain%2C%20users%2C%20scripts%20and%20the%20scheduler.%20Harden%20it%2C%20keep%20management%20reachable%20from%20the%20LAN%20only%2C%20and%20prove%20it%3A%20rescan%20from%20outside%2C%20and%20confirm%20the%20PC%20still%20reaches%20the%20outside%20host%20and%20can%20still%20manage%20the%20router.%20End%20with%20a%20before%20and%20after%20table.%20No%20exploit%2C%20just%20the%20audit%20and%20the%20hardening.)
 
 ## Requirements
 
