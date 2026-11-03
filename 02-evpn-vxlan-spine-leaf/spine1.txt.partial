@@ -1,0 +1,62 @@
+interfaces {
+    ge-0/0/0 {
+        description "to leaf1 ge-0/0/0";
+        mtu 9000;
+        unit 0 {
+            family inet {
+                address 10.0.11.1/30;
+            }
+        }
+    }
+    ge-0/0/1 {
+        description "to leaf2 ge-0/0/0";
+        mtu 9000;
+        unit 0 {
+            family inet {
+                address 10.0.12.1/30;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 10.255.0.1/32;
+            }
+        }
+    }
+}
+routing-options {
+    router-id 10.255.0.1;
+    autonomous-system 65000;
+}
+protocols {
+    ospf {
+        area 0.0.0.0 {
+            interface ge-0/0/0.0 {
+                interface-type p2p;
+            }
+            interface ge-0/0/1.0 {
+                interface-type p2p;
+            }
+            interface lo0.0 {
+                passive;
+            }
+        }
+    }
+    bgp {
+        group EVPN-RR-CLIENTS {
+            type internal;
+            local-address 10.255.0.1;
+            family evpn {
+                signaling;
+            }
+            cluster 10.255.0.1;
+            neighbor 10.255.0.11 {
+                description leaf1;
+            }
+            neighbor 10.255.0.12 {
+                description leaf2;
+            }
+        }
+    }
+}
