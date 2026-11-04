@@ -25,11 +25,4 @@ The full walkthrough with real output is in the [JNCIA-Junos practice lab](https
 
 ## What we measured
 
-On a 16 vCPU cloud VM with nested virtualization, containerlab v0.77.0, vJunos-router 26.2R1.7, with 29 containers from other labs also running:
-
-| Step | r2 | r1 |
-|---|---|---|
-| `Startup complete` in the log | 20 min 49 s | 24 min 21 s |
-| `show chassis fpc 0` reads `Online` | about 31 min | under 37 min |
-
-Each router used 5.1 GiB of memory and 3 to 3.5 cores. Earlier runs on a VM of the same size reached usable in about 18 minutes for one to three nodes.
+Each router used 5.1 GiB of memory and 3 to 3.5 cores.

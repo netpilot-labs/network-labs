@@ -39,7 +39,7 @@ cd juniper-labs/01-jncia-practice
 sudo containerlab deploy -t jncia-practice.clab.yml
 ```
 
-Deploy returns in seconds, then the routers boot. Allow 20 to 40 minutes for lab 01 and 40 to 50 for lab 02. Watch for `Startup complete` in `docker logs -f clab-jncia-lab-r1`, then poll `show chassis fpc 0` until it reads `Online`.
+Deploy returns in seconds, then the routers take a while to boot. Watch for `Startup complete` in `docker logs -f clab-jncia-lab-r1`, then poll `show chassis fpc 0` until it reads `Online`.
 
 ```bash
 sudo containerlab destroy -t jncia-practice.clab.yml --cleanup
