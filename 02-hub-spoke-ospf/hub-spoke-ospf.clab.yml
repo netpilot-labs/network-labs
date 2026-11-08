@@ -1,0 +1,44 @@
+# Hub and spoke OSPF on real Cisco IOS: a head office and two branches, three Cisco IOL routers in area 0, a Linux host on each LAN.
+# The configs are the ones an AI agent wrote and deployed from a written requirement in a recorded run on Cisco IOL 17.12.1
+# (https://www.netpilot.io/blog/ai-tools-for-network-engineers#tested-on-a-real-cisco-lab-five-tasks-one-scorecard).
+name: hub-spoke-ospf
+
+topology:
+  nodes:
+    HQ-R1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.1
+      startup-config: HQ-R1.partial.cfg
+    BRA-R1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.1
+      startup-config: BRA-R1.partial.cfg
+    BRB-R1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.1
+      startup-config: BRB-R1.partial.cfg
+    HQ-H1:
+      kind: linux
+      image: ghcr.io/srl-labs/network-multitool:latest
+      exec:
+        - ip addr add 10.10.0.10/24 dev eth1
+        - ip route add 10.0.0.0/8 via 10.10.0.1
+    BRA-H1:
+      kind: linux
+      image: ghcr.io/srl-labs/network-multitool:latest
+      exec:
+        - ip addr add 10.20.0.10/24 dev eth1
+        - ip route add 10.0.0.0/8 via 10.20.0.1
+    BRB-H1:
+      kind: linux
+      image: ghcr.io/srl-labs/network-multitool:latest
+      exec:
+        - ip addr add 10.30.0.10/24 dev eth1
+        - ip route add 10.0.0.0/8 via 10.30.0.1
+
+  links:
+    - endpoints: ["HQ-R1:Ethernet0/1", "BRA-R1:Ethernet0/1"]
+    - endpoints: ["HQ-R1:Ethernet0/2", "BRB-R1:Ethernet0/1"]
+    - endpoints: ["HQ-R1:Ethernet0/3", "HQ-H1:eth1"]
+    - endpoints: ["BRA-R1:Ethernet0/2", "BRA-H1:eth1"]
+    - endpoints: ["BRB-R1:Ethernet0/2", "BRB-H1:eth1"]

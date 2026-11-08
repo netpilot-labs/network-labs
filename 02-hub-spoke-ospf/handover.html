@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Handover: HQ + 2 Branch OSPF Network (hq-2branch-ospf-01)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root{
+  --bg:#fafaf9; --panel:#ffffff; --fg:#1c1917; --muted:#57534e; --border:#e7e5e4;
+  --accent:#0f6e66; --accent-soft:#e6f2f0;
+  --bad:#a61b1b; --bad-soft:#fcebea; --good:#166534; --good-soft:#e8f4ec; --warn:#8a4b00; --warn-soft:#fdf3e3;
+  --sans:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.6}
+main{max-width:60rem;margin:0 auto;padding:2.5rem 1.25rem 4rem}
+h1{font-size:clamp(1.9rem,5vw,2.75rem);font-weight:800;line-height:1.1;letter-spacing:-.02em;margin:.25rem 0 .75rem}
+h2{font-size:1.35rem;font-weight:800;letter-spacing:-.01em;margin:3rem 0 .75rem;padding-top:1rem;border-top:2px solid var(--fg)}
+h2 .n{font-family:var(--mono);font-size:.85rem;color:var(--accent);font-weight:600;margin-right:.6rem;vertical-align:.12em}
+h3{font-size:1.02rem;font-weight:700;margin:1.75rem 0 .4rem}
+p{margin:.5rem 0 .9rem;max-width:46rem}
+.eyebrow{font-family:var(--mono);font-size:.78rem;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.meta{color:var(--muted);font-size:.9rem}
+code,.mono{font-family:var(--mono);font-size:.86em}
+p code,li code,td code{background:#f1efed;padding:.05em .3em;border-radius:3px}
+.status{display:grid;grid-template-columns:auto 1fr;gap:.25rem 1rem;align-items:start;border-left:4px solid var(--good);background:var(--good-soft);padding:1rem 1.15rem;margin:1.5rem 0}
+.status .tag{font-family:var(--mono);font-weight:600;font-size:.8rem;color:var(--good);border:1.5px solid var(--good);padding:.1rem .45rem;border-radius:3px;white-space:nowrap}
+.status strong{font-size:1.05rem}
+.status p{margin:.2rem 0 0;grid-column:2}
+.keyfacts{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--border);background:var(--panel);margin:1rem 0}
+.keyfacts div{flex:1 1 11rem;padding:.75rem 1rem;border-right:1px solid var(--border)}
+.keyfacts div:last-child{border-right:none}
+.keyfacts b{display:block;font-family:var(--mono);font-size:1.15rem;font-weight:600}
+.keyfacts span{font-size:.82rem;color:var(--muted)}
+figure{margin:1.25rem 0;background:var(--panel);border:1px solid var(--border);padding:1rem}
+figure svg{width:100%;height:auto;display:block}
+figcaption{font-size:.85rem;color:var(--muted);margin-top:.6rem}
+.tw{overflow-x:auto;border:1px solid var(--border);background:var(--panel);margin:.75rem 0 1.25rem}
+table{border-collapse:collapse;width:100%;font-size:.88rem;min-width:34rem}
+th,td{text-align:left;padding:.5rem .7rem;border-bottom:1px solid var(--border);vertical-align:top}
+thead th{position:sticky;top:0;background:#f5f4f2;font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+tbody tr:nth-child(even){background:#fbfaf9}
+td.m,th.m{font-family:var(--mono);font-size:.84rem;white-space:nowrap}
+.pill{font-family:var(--mono);font-size:.74rem;font-weight:600;padding:.08rem .4rem;border-radius:3px;border:1.5px solid currentColor;white-space:nowrap}
+.pass{color:var(--good)} .fail{color:var(--bad)} .unv{color:var(--warn)}
+pre{font-family:var(--mono);font-size:.82rem;line-height:1.5;background:#f4f3f1;border:1px solid var(--border);border-left:3px solid var(--accent);padding:.8rem 1rem;overflow-x:auto;margin:.5rem 0 1rem;white-space:pre}
+pre.log{border-left-color:var(--bad)}
+.callout{border-left:4px solid var(--bad);background:var(--bad-soft);padding:.85rem 1.1rem;margin:1rem 0}
+.callout.warn{border-left-color:var(--warn);background:var(--warn-soft)}
+.callout p{margin:.25rem 0}
+ol.tl{list-style:none;padding:0;margin:1rem 0;border-left:2px solid var(--border)}
+ol.tl li{position:relative;padding:.1rem 0 .9rem 1.2rem}
+ol.tl li::before{content:"";position:absolute;left:-6px;top:.55rem;width:10px;height:10px;border-radius:50%;background:var(--panel);border:2px solid var(--muted)}
+ol.tl li.bad::before{border-color:var(--bad);background:var(--bad)}
+ol.tl li.ok::before{border-color:var(--good);background:var(--good)}
+ol.tl .t{font-family:var(--mono);font-size:.82rem;font-weight:600;display:block}
+ul{padding-left:1.2rem} li{margin:.25rem 0}
+.small{font-size:.85rem;color:var(--muted)}
+footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--border);font-size:.82rem;color:var(--muted)}
+/* SVG */
+.s-site{fill:#f5f4f2;stroke:#d6d3d1;stroke-width:1}
+.s-site-lbl{font-family:var(--mono);font-size:11px;fill:#57534e;letter-spacing:.04em}
+.s-rtr{fill:var(--accent);stroke:none}
+.s-rtr-t{font-family:var(--sans);font-size:14px;font-weight:700;fill:#fff}
+.s-rtr-s{font-family:var(--mono);font-size:10.5px;fill:#d7ece9}
+.s-host{fill:#fff;stroke:#78716c;stroke-width:1.2}
+.s-host-t{font-family:var(--sans);font-size:12.5px;font-weight:700;fill:#1c1917}
+.s-host-s{font-family:var(--mono);font-size:10.5px;fill:#44403c}
+.s-link{stroke:#44403c;stroke-width:2}
+.s-link-bad{stroke:var(--bad);stroke-width:2.5}
+.s-lbl{font-family:var(--mono);font-size:10.5px;fill:#1c1917}
+.s-lbl-net{font-family:var(--mono);font-size:11px;font-weight:600;fill:#1c1917}
+.s-note{font-family:var(--sans);font-size:11.5px;fill:#57534e;font-style:italic}
+.s-badge{fill:var(--bad-soft);stroke:var(--bad);stroke-width:1}
+.s-badge-t{font-family:var(--mono);font-size:10px;font-weight:600;fill:var(--bad)}
+.s-area{font-family:var(--mono);font-size:11px;font-weight:600;fill:var(--accent)}
+@media print{h2{break-after:avoid} .tw,figure,pre{break-inside:avoid}}
+</style>
+</head>
+<body>
+<main>
+
+<div class="eyebrow">Network handover · as of 2026-11-08 16:28 UTC</div>
+<h1>HQ + two branches, OSPF area 0</h1>
+<p class="meta">Lab <code>hq-2branch-ospf-01</code> · three Cisco IOS routers (IOL 17.12.1) and one Linux test host per site LAN · ContainerLab. Still deployed and running at handover.</p>
+
+<div class="status">
+  <span class="tag">HEALTHY</span>
+  <strong>All 5 handover checks passed (5 PASS, 0 FAIL) at 16:27:48–16:28:06 UTC.</strong>
+  <p>Branch B lost reachability to the head office from 16:21:58 to 16:25:04 UTC because of an OSPF area mismatch on BRB-R1. It was fixed live by removing one interface command. The open item: the log shows <em>that</em> the change was made but not <em>who</em> made it (see §6).</p>
+</div>
+
+<div class="keyfacts">
+  <div><b>3</b><span>sites, one router each</span></div>
+  <div><b>2</b><span>WAN links (hub-and-spoke)</span></div>
+  <div><b>area 0</b><span>single OSPF area</span></div>
+  <div><b>3 m 06 s</b><span>Branch B outage (adjacency down → FULL)</span></div>
+</div>
+
+<h2><span class="n">01</span>Topology</h2>
+<figure>
+<svg viewBox="0 0 720 460" role="img" aria-labelledby="dt dd">
+  <title id="dt">Network diagram</title>
+  <desc id="dd">HQ-R1 at the head office connects to BRA-R1 over 10.0.12.0/30 and to BRB-R1 over 10.0.13.0/30. Each router has one user LAN with a host at .10. There is no link between the branches.</desc>
+  <!-- sites -->
+  <rect class="s-site" x="210" y="10" width="300" height="186" rx="4"/>
+  <text class="s-site-lbl" x="222" y="30">HEAD OFFICE · 10.10.0.0/24</text>
+  <rect class="s-site" x="14" y="262" width="276" height="186" rx="4"/>
+  <text class="s-site-lbl" x="26" y="282">BRANCH A · 10.20.0.0/24</text>
+  <rect class="s-site" x="430" y="262" width="276" height="186" rx="4"/>
+  <text class="s-site-lbl" x="442" y="282">BRANCH B · 10.30.0.0/24</text>
+
+  <!-- LAN links -->
+  <line class="s-link" x1="360" y1="82" x2="360" y2="124"/>
+  <text class="s-lbl" x="368" y="108">Et0/3 · .1</text>
+  <line class="s-link" x1="152" y1="344" x2="152" y2="384"/>
+  <text class="s-lbl" x="160" y="368">Et0/2 · .1</text>
+  <line class="s-link" x1="568" y1="344" x2="568" y2="384"/>
+  <text class="s-lbl" x="576" y="368">Et0/2 · .1</text>
+
+  <!-- WAN links -->
+  <line class="s-link" x1="318" y1="168" x2="170" y2="300"/>
+  <line class="s-link-bad" x1="402" y1="168" x2="550" y2="300"/>
+  <text class="s-lbl" x="252" y="186">Et0/1 · .1</text>
+  <text class="s-lbl" x="150" y="294" text-anchor="end">Et0/1 · .2</text>
+  <text class="s-lbl-net" x="230" y="234" text-anchor="end">10.0.12.0/30</text>
+  <text class="s-lbl" x="412" y="186">Et0/2 · .1</text>
+  <text class="s-lbl" x="572" y="294">Et0/1 · .2</text>
+  <text class="s-lbl-net" x="490" y="234">10.0.13.0/30</text>
+  <rect class="s-badge" x="488" y="241" width="132" height="18" rx="2"/>
+  <text class="s-badge-t" x="494" y="254">FAULT 16:22–16:25 · FIXED</text>
+
+  <!-- routers -->
+  <rect class="s-rtr" x="290" y="124" width="140" height="44" rx="3"/>
+  <text class="s-rtr-t" x="360" y="143" text-anchor="middle">HQ-R1</text>
+  <text class="s-rtr-s" x="360" y="159" text-anchor="middle">lo0 10.255.0.1</text>
+  <rect class="s-rtr" x="82" y="300" width="140" height="44" rx="3"/>
+  <text class="s-rtr-t" x="152" y="319" text-anchor="middle">BRA-R1</text>
+  <text class="s-rtr-s" x="152" y="335" text-anchor="middle">lo0 10.255.0.2</text>
+  <rect class="s-rtr" x="498" y="300" width="140" height="44" rx="3"/>
+  <text class="s-rtr-t" x="568" y="319" text-anchor="middle">BRB-R1</text>
+  <text class="s-rtr-s" x="568" y="335" text-anchor="middle">lo0 10.255.0.3</text>
+
+  <!-- hosts -->
+  <rect class="s-host" x="300" y="44" width="120" height="38" rx="3"/>
+  <text class="s-host-t" x="360" y="60" text-anchor="middle">HQ-H1</text>
+  <text class="s-host-s" x="360" y="75" text-anchor="middle">10.10.0.10</text>
+  <rect class="s-host" x="92" y="384" width="120" height="38" rx="3"/>
+  <text class="s-host-t" x="152" y="400" text-anchor="middle">BRA-H1</text>
+  <text class="s-host-s" x="152" y="415" text-anchor="middle">10.20.0.10</text>
+  <rect class="s-host" x="508" y="384" width="120" height="38" rx="3"/>
+  <text class="s-host-t" x="568" y="400" text-anchor="middle">BRB-H1</text>
+  <text class="s-host-s" x="568" y="415" text-anchor="middle">10.30.0.10</text>
+
+  <text class="s-note" x="360" y="340" text-anchor="middle">no branch-to-branch link</text>
+  <text class="s-note" x="360" y="356" text-anchor="middle">(A ↔ B traffic goes through HQ-R1)</text>
+  <text class="s-area" x="702" y="30" text-anchor="end">OSPF AREA 0 · ALL LINKS</text>
+</svg>
+<figcaption>Hub-and-spoke design. Teal boxes are routers, white boxes are test hosts. The red link is where today's fault happened; it is now restored. Ethernet0/0 on each router is reserved for lab management and is not shown.</figcaption>
+</figure>
+
+<h2><span class="n">02</span>Sites</h2>
+<div class="tw"><table>
+<thead><tr><th>Site</th><th>Router</th><th>Router ID / Loopback0</th><th>User LAN</th><th>Gateway</th><th>Test host</th><th>Uplink</th></tr></thead>
+<tbody>
+<tr><td>Head office</td><td class="m">HQ-R1</td><td class="m">10.255.0.1/32</td><td class="m">10.10.0.0/24</td><td class="m">10.10.0.1</td><td class="m">HQ-H1 10.10.0.10</td><td>Hub: one link to each branch</td></tr>
+<tr><td>Branch A</td><td class="m">BRA-R1</td><td class="m">10.255.0.2/32</td><td class="m">10.20.0.0/24</td><td class="m">10.20.0.1</td><td class="m">BRA-H1 10.20.0.10</td><td>HQ only, 10.0.12.0/30</td></tr>
+<tr><td>Branch B</td><td class="m">BRB-R1</td><td class="m">10.255.0.3/32</td><td class="m">10.30.0.0/24</td><td class="m">10.30.0.1</td><td class="m">BRB-H1 10.30.0.10</td><td>HQ only, 10.0.13.0/30</td></tr>
+</tbody></table></div>
+
+<h2><span class="n">03</span>Addressing</h2>
+<div class="tw"><table>
+<thead><tr><th>Device</th><th>Interface</th><th>Address</th><th>Connects to</th><th>OSPF role</th></tr></thead>
+<tbody>
+<tr><td class="m">HQ-R1</td><td class="m">Ethernet0/1</td><td class="m">10.0.12.1/30</td><td class="m">BRA-R1 Et0/1</td><td>area 0, point-to-point</td></tr>
+<tr><td class="m">HQ-R1</td><td class="m">Ethernet0/2</td><td class="m">10.0.13.1/30</td><td class="m">BRB-R1 Et0/1</td><td>area 0, point-to-point</td></tr>
+<tr><td class="m">HQ-R1</td><td class="m">Ethernet0/3</td><td class="m">10.10.0.1/24</td><td>HQ user LAN</td><td>area 0, passive</td></tr>
+<tr><td class="m">HQ-R1</td><td class="m">Loopback0</td><td class="m">10.255.0.1/32</td><td>—</td><td>area 0, passive</td></tr>
+<tr><td class="m">BRA-R1</td><td class="m">Ethernet0/1</td><td class="m">10.0.12.2/30</td><td class="m">HQ-R1 Et0/1</td><td>area 0, point-to-point</td></tr>
+<tr><td class="m">BRA-R1</td><td class="m">Ethernet0/2</td><td class="m">10.20.0.1/24</td><td>Branch A user LAN</td><td>area 0, passive</td></tr>
+<tr><td class="m">BRA-R1</td><td class="m">Loopback0</td><td class="m">10.255.0.2/32</td><td>—</td><td>area 0, passive</td></tr>
+<tr><td class="m">BRB-R1</td><td class="m">Ethernet0/1</td><td class="m">10.0.13.2/30</td><td class="m">HQ-R1 Et0/2</td><td>area 0, point-to-point</td></tr>
+<tr><td class="m">BRB-R1</td><td class="m">Ethernet0/2</td><td class="m">10.30.0.1/24</td><td>Branch B user LAN</td><td>area 0, passive</td></tr>
+<tr><td class="m">BRB-R1</td><td class="m">Loopback0</td><td class="m">10.255.0.3/32</td><td>—</td><td>area 0, passive</td></tr>
+</tbody></table></div>
+<p class="small">The test hosts use a <code>10.0.0.0/8</code> route via their LAN gateway, and their data interfaces are set to MTU 1500 to match the routers. Their configuration is applied when the lab is deployed.</p>
+
+<h2><span class="n">04</span>Routing</h2>
+<ul>
+<li><b>Protocol:</b> OSPF process 1, single area 0 on every router. No redistribution, no default route, no static routes.</li>
+<li><b>Interface assignment:</b> by <code>network … area 0</code> statements under <code>router ospf 1</code>. <b>Do not use interface-level <code>ip ospf 1 area N</code>.</b> On IOS it overrides the network statement, which is exactly what broke Branch B today.</li>
+<li><b>WAN links:</b> <code>ip ospf network point-to-point</code> on both ends (no DR election; adjacency forms in seconds).</li>
+<li><b>LANs and loopbacks:</b> <code>passive-interface</code>. They are advertised, but OSPF hellos are not sent to users.</li>
+<li><b>Expected tables:</b> HQ-R1 has <b>2 FULL neighbors</b> and <b>4 OSPF routes</b>. Each branch has <b>1 FULL neighbor</b> (10.255.0.1) and <b>5 OSPF routes</b>. Branch-to-branch traffic goes through HQ-R1 (cost 30 for the far branch LAN).</li>
+<li><b>No redundancy:</b> a branch WAN link or HQ-R1 failure isolates that branch. This is by design (one link per branch) and has not been failure-tested.</li>
+</ul>
+<h3>Reference OSPF configuration (BRB-R1, as running now)</h3>
+<pre>interface Ethernet0/1
+ description WAN to HQ-R1 Et0/2
+ ip address 10.0.13.2 255.255.255.252
+ ip ospf network point-to-point
+!
+router ospf 1
+ router-id 10.255.0.3
+ passive-interface Ethernet0/2
+ passive-interface Loopback0
+ network 10.0.13.0 0.0.0.3 area 0
+ network 10.30.0.0 0.0.0.255 area 0
+ network 10.255.0.3 0.0.0.0 area 0</pre>
+
+<h2><span class="n">05</span>What failed today</h2>
+<div class="callout">
+<p><b>Symptom:</b> users at Branch B could reach their own gateway but nothing at the head office.</p>
+<p><b>Cause:</b> an interface-level <code>ip ospf 1 area 1</code> appeared on BRB-R1 Ethernet0/1. That put the WAN link in area 1 on BRB-R1 while HQ-R1 runs it in area 0. The routers rejected each other's hellos, the adjacency dropped, and both sides withdrew the routes.</p>
+<p><b>Impact:</b> Branch B ↔ head office unreachable; the adjacency was down from 16:21:58 to 16:25:04 UTC (BRB-H1 → HQ-H1 0/5 at 16:24:29). Branch B ↔ Branch A uses the same link, so it would also have been cut, but that was not tested during the fault. Branch A ↔ head office was unaffected (BRA-H1 → HQ-H1 3/3 at 16:24:29).</p>
+</div>
+
+<h3>Timeline (UTC, device clocks)</h3>
+<ol class="tl">
+<li class="ok"><span class="t">16:18:23</span>HQ-R1 ↔ BRB-R1 adjacency FULL after the initial deploy; all build checks passed.</li>
+<li class="bad"><span class="t">16:21:58.328</span>BRB-R1: neighbor 10.255.0.1 on Et0/1 <b>FULL → DOWN</b>, "Interface down or detached".</li>
+<li class="bad"><span class="t">16:21:59 – 16:24:58</span>BRB-R1: 20 × <code>%OSPF-4-ERRRCV … mismatched area ID from backbone area from 10.0.13.1</code>, roughly one every 9–10 s.</li>
+<li class="bad"><span class="t">16:22:00.929</span>BRB-R1: <code>%SYS-5-CONFIG_I: Configured from console</code> by the lab's shared local account on vty2, from the lab management network.</li>
+<li class="bad"><span class="t">16:22:31.220</span>HQ-R1: neighbor 10.255.0.3 on Et0/2 DOWN, "Dead timer expired".</li>
+<li><span class="t">16:24:29 – 16:24:47</span>Diagnosis. BRB-H1 → own gateway 3/3, → HQ-H1 0/5 ("Destination Host Unreachable" from 10.30.0.1). BRB-R1 <code>show ip ospf interface brief</code> showed Et0/1 in <b>area 1</b> and HQ-R1 Et0/2 in <b>area 0</b>.</li>
+<li class="ok"><span class="t">16:25:04.547</span>Fix applied on BRB-R1 (see §6). CONFIG_I logged, same account and source network as the fault.</li>
+<li class="ok"><span class="t">16:25:04.596</span>Both routers: adjacency <b>LOADING → FULL</b>.</li>
+<li class="ok"><span class="t">16:25:11 – 16:25:26</span>BRB-H1 → HQ-H1 5/5, HQ-H1 → BRB-H1 5/5, BRA-H1 → HQ-H1 5/5. Traceroute BRB-H1 → HQ-H1: 10.30.0.1 → 10.0.13.1 → 10.10.0.10.</li>
+</ol>
+
+<h3>Key evidence as captured (BRB-R1, 16:24:47)</h3>
+<pre class="log">Interface    PID   Area            IP Address/Mask    Cost  State Nbrs F/C
+Lo0          1     0               10.255.0.3/32      1     LOOP  0/0
+Et0/2        1     0               10.30.0.1/24       10    DR    0/0
+Et0/1        1     1               10.0.13.2/30       10    P2P   0/0
+
+interface Ethernet0/1
+ description WAN to HQ-R1 Et0/2
+ ip address 10.0.13.2 255.255.255.252
+ ip ospf network point-to-point
+ ip ospf 1 area 1</pre>
+
+<div class="callout warn">
+<p><b>Evidence is leaving the device.</b> BRB-R1's log buffer is only 4096 bytes. By 16:27:48 the 16:21:58 FULL → DOWN line and the first ERRRCV (16:21:59) had already rolled out; 19 of the 20 ERRRCV lines remained. The timeline above was taken from the 16:24:47 read. Do not expect to find all of it on the router tomorrow.</p>
+</div>
+
+<h2><span class="n">06</span>What I changed</h2>
+<div class="tw"><table>
+<thead><tr><th>Time (UTC)</th><th>Device</th><th>Change</th><th>Persisted?</th></tr></thead>
+<tbody>
+<tr><td class="m">16:17:46</td><td class="m">all routers + hosts</td><td>Initial build: startup configs written, lab deployed at 16:17:55. Configs reviewed against the on-disk files before deploy; no defects found.</td><td>Yes: lab startup files</td></tr>
+<tr><td class="m">16:25:04</td><td class="m">BRB-R1</td><td><code>interface Ethernet0/1</code> → <code>no ip ospf 1 area 1</code></td><td>Not needed (see note)</td></tr>
+</tbody></table></div>
+<p>That single line is the only change made to restore service. Nothing was changed on HQ-R1 or BRA-R1, and no OSPF process was cleared.</p>
+<p class="small"><b>Persistence note:</b> the bad line only ever existed in BRB-R1's <em>running</em> config. The lab's startup file for BRB-R1 (unchanged since 16:17:46) never contained it, and the router's NVRAM holds no saved config. A reboot or redeploy therefore boots the correct configuration. <code>write memory</code> was not run. On real hardware you would run it after verifying.</p>
+
+<h3>Open item: who made the 16:22 change</h3>
+<p>The log shows a configuration session at 16:22:00 under the lab's single shared local account, over vty2, from the lab management network. The fix at 16:25:04 shows the <b>same account and source network</b> (vty0). The router cannot tell one person from another, so <b>the author of the fault is unverified</b>. "Nobody changed anything" is contradicted by the log, but the log cannot say who did it.</p>
+
+<h2><span class="n">07</span>How to verify it is healthy</h2>
+<p>Run these from the Labs tab console on each device. The last column is what I observed at handover (agent-executed, 16:27:48–16:28:06 UTC).</p>
+<div class="tw"><table>
+<thead><tr><th>#</th><th>Check</th><th>Where / command</th><th>Healthy looks like</th><th>At handover</th></tr></thead>
+<tbody>
+<tr><td class="m">1</td><td>Hub adjacencies</td><td class="m">HQ-R1: show ip ospf neighbor</td><td>10.255.0.2 on Et0/1 and 10.255.0.3 on Et0/2, both <code>FULL/ -</code></td><td><span class="pill pass">PASS</span> 2 of 2 FULL</td></tr>
+<tr><td class="m">2</td><td>Branch adjacencies</td><td class="m">BRA-R1, BRB-R1: show ip ospf neighbor</td><td>10.255.0.1 <code>FULL/ -</code> on Et0/1</td><td><span class="pill pass">PASS</span> 1 of 1 on each</td></tr>
+<tr><td class="m">3</td><td>Route tables</td><td class="m">show ip route ospf | include ^O</td><td>HQ-R1: 4 routes. Each branch: 5 routes, including the other branch LAN at [110/30]</td><td><span class="pill pass">PASS</span> 4 / 5 / 5</td></tr>
+<tr><td class="m">4</td><td>No interface-level area overrides</td><td class="m">BRA-R1, BRB-R1: show running-config | include ip ospf . area</td><td>No output</td><td><span class="pill pass">PASS</span> empty on both</td></tr>
+<tr><td class="m">5</td><td>End-to-end reachability</td><td class="m">Host consoles: ping -c 5 &lt;target&gt;</td><td>0% loss: BRA-H1 → 10.10.0.10, BRB-H1 → 10.10.0.10, HQ-H1 → 10.20.0.10, HQ-H1 → 10.30.0.10</td><td><span class="pill pass">PASS</span> 5/5 on all 4</td></tr>
+</tbody></table></div>
+<p class="small">Check 4 was run on the two branch routers. HQ-R1 was not checked with that command; its <code>show ip ospf interface brief</code> at 16:24:47 showed all four OSPF interfaces in area 0. For any area problem, the fastest single command is <code>show ip ospf interface brief</code>. The Area column must read 0 on every row, on every router.</p>
+
+<h3>Quick commands</h3>
+<pre>show ip ospf neighbor
+show ip ospf interface brief
+show ip route ospf
+show logging | include ADJCHG|ERRRCV|CONFIG_I
+ping 10.10.0.10 source 10.30.0.1</pre>
+<p class="small">If a branch drops again: an <code>ERRRCV … mismatched area ID</code> line means an area mismatch. If the neighbor is missing with no ERRRCV lines, check the link and interface state first (<code>show ip interface brief</code>).</p>
+
+<h2><span class="n">08</span>Recommendations and what is not verified</h2>
+<h3>Recommended next steps (not applied)</h3>
+<ol>
+<li><b>Find out who made the 16:22 change.</b> Then move to individual accounts (AAA with accounting) so the next change can be attributed.</li>
+<li><b>Log configuration changes command by command</b>, so the next change records the exact commands:
+<pre>archive
+ log config
+  logging enable
+  notify syslog contenttype plaintext
+  hidekeys</pre></li>
+<li><b>Enlarge the log buffer and send logs off the box</b>: <code>logging buffered 64000</code>, plus a syslog server. 4096 bytes lost the start of today's incident within about 6 minutes.</li>
+<li><b>Alert on <code>%OSPF-5-ADJCHG … to DOWN</code></b> at the hub, so a branch loss is caught before users report it.</li>
+</ol>
+<h3>Not verified</h3>
+<ul>
+<li>Who made the 16:22:00 change (see §6).</li>
+<li>Applications or services. ICMP proves reachability and forwarding only. Discrete 5-probe pings are point-in-time checks, not continuous monitoring.</li>
+<li>Failure behaviour: no link or router failure has been tested. With one link per branch, there is no backup path.</li>
+<li>Check 4 on HQ-R1 (see the note under §7).</li>
+</ul>
+
+<footer>
+All results in this document come from commands run by the agent on the lab devices and hosts on 2026-11-08, quoted from device output with device-clock timestamps. No operator-supplied spot-checks are included. Management addresses and sign-in details are intentionally omitted. Use the Labs tab consoles to reach the devices.
+</footer>
+</main>
+</body>
+</html>
