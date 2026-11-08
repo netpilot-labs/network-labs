@@ -1,0 +1,34 @@
+# Classic CCNA OSPF lab on real Cisco IOS: two Cisco IOL routers in area 0 and a Linux host on each LAN.
+# R2's link to R1 carries a stray ip mtu 1400, so the adjacency stops in EXSTART/EXCHANGE until the MTUs match.
+# From a recorded run on Cisco IOL 17.12.1 (https://www.netpilot.io/blog/network-simulator-online-free).
+name: ccna-ospf-mtu
+
+topology:
+  nodes:
+    R1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.1
+      startup-config: R1.partial.cfg
+    R2:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.1
+      startup-config: R2.partial.cfg
+    host1:
+      kind: linux
+      image: ghcr.io/srl-labs/network-multitool:latest
+      exec:
+        - ip addr add 192.168.1.10/24 dev eth1
+        - ip route add 192.168.0.0/16 via 192.168.1.1
+        - ip route add 10.0.0.0/8 via 192.168.1.1
+    host2:
+      kind: linux
+      image: ghcr.io/srl-labs/network-multitool:latest
+      exec:
+        - ip addr add 192.168.2.10/24 dev eth1
+        - ip route add 192.168.0.0/16 via 192.168.2.1
+        - ip route add 10.0.0.0/8 via 192.168.2.1
+
+  links:
+    - endpoints: ["R1:Ethernet0/1", "R2:Ethernet0/1"]
+    - endpoints: ["R1:Ethernet0/2", "host1:eth1"]
+    - endpoints: ["R2:Ethernet0/2", "host2:eth1"]
