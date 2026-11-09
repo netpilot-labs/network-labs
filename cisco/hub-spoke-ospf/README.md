@@ -1,4 +1,4 @@
-# 02: Hub and spoke OSPF on real Cisco IOS, with a fault to plant
+# Hub and spoke OSPF on real Cisco IOS, with a fault to plant
 
 A head office and two branches on real Cisco IOS (Cisco IOL 17.12.1): three routers in OSPF area 0, each branch linked only to the head office, a Linux host on each LAN. The configs here are the ones an AI agent designed, wrote and deployed from a written requirement in a recorded run. Then one fault was planted by hand and the agent got only the user's symptom.
 

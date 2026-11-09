@@ -1,4 +1,4 @@
-# 01: CCNA OSPF lab on real Cisco IOS, with one stray MTU
+# CCNA OSPF lab on real Cisco IOS, with one stray MTU
 
 The classic two-router CCNA OSPF lab, run on real Cisco IOS (Cisco IOL 17.12.1) instead of a simulator. One detail is planted for you to find: R2's link to R1 runs at IP MTU 1400 while R1 stays at the default 1500.
 
@@ -43,3 +43,7 @@ An adjacency that is already FULL does not compare the MTU again, so restart OSP
 ## Back to Packet Tracer
 
 [`packet-tracer/ccna-ospf-mtu.pkt`](packet-tracer/ccna-ospf-mtu.pkt) is the fixed lab exported for Cisco Packet Tracer 9.0: two 2911 routers, two PCs, 4 devices and 3 links, no `ip mtu`. The router configs are next to it. It was exported from the run, not opened in Packet Tracer during it.
+
+## Build it from one prompt
+
+[The prompt](https://github.com/netpilot-labs/example-prompts/blob/main/troubleshooting/cisco-ios-ospf-mtu-mismatch.md) builds the same lab in [NetPilot](https://www.netpilot.io/cisco-virtual-lab) on real Cisco IOS, finds the MTU on the CLI, fixes it and exports the `.pkt`.

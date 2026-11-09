@@ -1,4 +1,4 @@
-# 01 JNCIA practice lab
+# Juniper vJunos JNCIA practice lab
 
 Two vJunos-routers and two Linux hosts. The startup config holds addresses only, so you do the rest by hand.
 
@@ -26,3 +26,7 @@ The full walkthrough with real output is in the [JNCIA-Junos practice lab](https
 ## What we measured
 
 Each router used 5.1 GiB of memory and 3 to 3.5 cores.
+
+## Build it from one prompt
+
+[The prompt](https://github.com/netpilot-labs/example-prompts/blob/main/routing/juniper-vjunos-ospf-two-routers.md) builds the same two routers and hosts in [NetPilot](https://www.netpilot.io/juniper-lab) with OSPF running, the end state of exercises 3 and 7.

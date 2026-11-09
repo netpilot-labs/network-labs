@@ -1,4 +1,4 @@
-# 02 EVPN-VXLAN spine and leaf
+# Juniper vJunos EVPN-VXLAN spine and leaf
 
 One vJunos-router spine, two vJunos-switch leaves and a Linux host on each leaf. OSPF area 0 is the underlay, iBGP in AS 65000 carries EVPN with the spine as route reflector, and VLAN 10 maps to VXLAN VNI 10010 on both leaves. The two hosts share one subnet, so their ping crosses VXLAN.
 
@@ -60,3 +60,7 @@ The full walkthrough with the real output is in the [Juniper EVPN-VXLAN lab tuto
 ## Notes
 
 The run in NetPilot pinned a management subnet for the lab. This file leaves management addressing to containerlab's default.
+
+## Build it from one prompt
+
+[The prompt](https://github.com/netpilot-labs/example-prompts/blob/main/data-center/juniper-evpn-vxlan-vjunos.md) builds the same fabric in [NetPilot](https://www.netpilot.io/juniper-lab) and checks each layer on the devices.
