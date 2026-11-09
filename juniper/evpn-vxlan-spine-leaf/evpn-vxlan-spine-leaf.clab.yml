@@ -1,0 +1,34 @@
+name: junos-evpn-vxlan-01
+topology:
+  nodes:
+    spine1:
+      kind: juniper_vjunosrouter
+      image: vrnetlab/juniper_vjunos-router:26.2R1.7
+      startup-config: spine1.txt.partial
+    leaf1:
+      kind: juniper_vjunosswitch
+      image: vrnetlab/juniper_vjunos-switch:26.2R1.7
+      startup-config: leaf1.txt.partial
+    leaf2:
+      kind: juniper_vjunosswitch
+      image: vrnetlab/juniper_vjunos-switch:26.2R1.7
+      startup-config: leaf2.txt.partial
+    host1:
+      kind: linux
+      image: ghcr.io/srl-labs/network-multitool:latest
+      exec:
+        - ip link set eth1 mtu 1500
+        - ip addr add 192.168.10.11/24 dev eth1
+        - ip link set eth1 up
+    host2:
+      kind: linux
+      image: ghcr.io/srl-labs/network-multitool:latest
+      exec:
+        - ip link set eth1 mtu 1500
+        - ip addr add 192.168.10.12/24 dev eth1
+        - ip link set eth1 up
+  links:
+    - endpoints: ["spine1:ge-0/0/0", "leaf1:ge-0/0/0"]
+    - endpoints: ["spine1:ge-0/0/1", "leaf2:ge-0/0/0"]
+    - endpoints: ["leaf1:ge-0/0/1", "host1:eth1"]
+    - endpoints: ["leaf2:ge-0/0/1", "host2:eth1"]

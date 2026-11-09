@@ -1,0 +1,30 @@
+name: arista-two
+topology:
+  kinds:
+    arista_ceos:
+      image: ceos:4.36.1F
+    linux:
+      image: ghcr.io/srl-labs/network-multitool:latest
+  nodes:
+    sw1:
+      kind: arista_ceos
+      startup-config: configs/sw1.cfg
+    sw2:
+      kind: arista_ceos
+      startup-config: configs/sw2.cfg
+    h1:
+      kind: linux
+      exec:
+        - ip link set eth1 mtu 1500
+        - ip addr add 10.1.1.10/24 dev eth1
+        - ip route replace 10.0.0.0/8 via 10.1.1.1
+    h2:
+      kind: linux
+      exec:
+        - ip link set eth1 mtu 1500
+        - ip addr add 10.2.2.10/24 dev eth1
+        - ip route replace 10.0.0.0/8 via 10.2.2.1
+  links:
+    - endpoints: ["sw1:eth1", "sw2:eth1"]
+    - endpoints: ["sw1:eth2", "h1:eth1"]
+    - endpoints: ["sw2:eth2", "h2:eth1"]
