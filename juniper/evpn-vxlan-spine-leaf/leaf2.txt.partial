@@ -1,0 +1,74 @@
+interfaces {
+    ge-0/0/0 {
+        description "to spine1 ge-0/0/1";
+        mtu 9000;
+        unit 0 {
+            family inet {
+                address 10.0.12.2/30;
+            }
+        }
+    }
+    ge-0/0/1 {
+        description "to host2 eth1";
+        unit 0 {
+            family ethernet-switching {
+                interface-mode access;
+                vlan {
+                    members VLAN10;
+                }
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 10.255.0.12/32;
+            }
+        }
+    }
+}
+routing-options {
+    router-id 10.255.0.12;
+    autonomous-system 65000;
+}
+protocols {
+    ospf {
+        area 0.0.0.0 {
+            interface ge-0/0/0.0 {
+                interface-type p2p;
+            }
+            interface lo0.0 {
+                passive;
+            }
+        }
+    }
+    bgp {
+        group EVPN-OVERLAY {
+            type internal;
+            local-address 10.255.0.12;
+            family evpn {
+                signaling;
+            }
+            neighbor 10.255.0.1 {
+                description spine1-rr;
+            }
+        }
+    }
+    evpn {
+        encapsulation vxlan;
+        extended-vni-list 10010;
+    }
+}
+switch-options {
+    vtep-source-interface lo0.0;
+    route-distinguisher 10.255.0.12:1;
+    vrf-target target:65000:10010;
+}
+vlans {
+    VLAN10 {
+        vlan-id 10;
+        vxlan {
+            vni 10010;
+        }
+    }
+}
