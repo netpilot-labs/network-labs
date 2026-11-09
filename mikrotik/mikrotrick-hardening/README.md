@@ -58,3 +58,7 @@ sudo docker exec clab-mikrotrick-hardening-pc1 nmap -Pn -sT -p 22,80,8291 192.16
 ```
 
 Tested with containerlab v0.82.0 and RouterOS 7.24.5 on 2026-11-03: 8 ports open before, all 8 filtered after, 5 of 5 pings and HTTP 200 from the PC, and SSH, WebFig and WinBox open from the LAN.
+
+## Build it from one prompt
+
+On NetPilot the same lab builds from one prompt in the browser, on real RouterOS with nothing installed: [the prompt](https://github.com/netpilot-labs/example-prompts/blob/main/security/mikrotik-firewall-hardening-mikrotrick.md).

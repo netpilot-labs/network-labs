@@ -4,10 +4,10 @@ Four containerlab labs for MikroTik RouterOS CHR. Each one runs on the official 
 
 | Lab | What it builds | Tutorial |
 |---|---|---|
-| [01-chr-two-routers](01-chr-two-routers) | Two CHR routers with OSPF over one link | [Run the official MikroTik CHR image in containerlab](https://www.netpilot.io/blog/mikrotik-chr-containerlab) |
-| [02-mtcna-practice](02-mtcna-practice) | Gateway, ISP, web server and two PCs for DHCP, bridging, NAT, firewall, queues and PPPoE | [MTCNA practice lab](https://www.netpilot.io/blog/mtcna-practice-lab) |
-| [03-dual-wan-pcc](03-dual-wan-pcc) | Dual WAN PCC load balancing with failover on RouterOS 7 | [MikroTik load balancing with PCC](https://www.netpilot.io/blog/mikrotik-load-balancing-pcc) |
-| [04-mikrotrick-hardening](04-mikrotrick-hardening) | An exposed edge router, the audit after MikroTrick, and a firewall that keeps management on the LAN | [MikroTik firewall hardening after MikroTrick](https://www.netpilot.io/blog/mikrotik-firewall-hardening) |
+| [chr-two-routers](chr-two-routers) | Two CHR routers with OSPF over one link | [Run the official MikroTik CHR image in containerlab](https://www.netpilot.io/blog/mikrotik-chr-containerlab) |
+| [mtcna-practice](mtcna-practice) | Gateway, ISP, web server and two PCs for DHCP, bridging, NAT, firewall, queues and PPPoE | [MTCNA practice lab](https://www.netpilot.io/blog/mtcna-practice-lab) |
+| [dual-wan-pcc](dual-wan-pcc) | Dual WAN PCC load balancing with failover on RouterOS 7 | [MikroTik load balancing with PCC](https://www.netpilot.io/blog/mikrotik-load-balancing-pcc) |
+| [mikrotrick-hardening](mikrotrick-hardening) | An exposed edge router, the audit after MikroTrick, and a firewall that keeps management on the LAN | [MikroTik firewall hardening after MikroTrick](https://www.netpilot.io/blog/mikrotik-firewall-hardening) |
 
 ## Build this from one prompt
 
@@ -27,8 +27,8 @@ No Linux host? On [NetPilot](https://www.netpilot.io/mikrotik-lab) an AI agent b
 ## Run a lab
 
 ```bash
-git clone https://github.com/netpilot-labs/mikrotik-labs
-cd mikrotik-labs/01-chr-two-routers
+git clone https://github.com/netpilot-labs/network-labs
+cd network-labs/mikrotik/chr-two-routers
 sudo containerlab deploy -t chr-two-routers.clab.yml
 ```
 

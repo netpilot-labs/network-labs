@@ -4,8 +4,8 @@ containerlab labs for Juniper vJunos-router and vJunos-switch, using the `junipe
 
 | Lab | What it builds | Tutorial |
 |---|---|---|
-| [01-jncia-practice](01-jncia-practice) | Two vJunos-routers and two Linux hosts, with seven exercises mapped to the JN0-106 objectives | [JNCIA-Junos practice lab](https://www.netpilot.io/blog/jncia-practice-lab) |
-| [02-evpn-vxlan-spine-leaf](02-evpn-vxlan-spine-leaf) | A vJunos-router spine and two vJunos-switch leaves: OSPF underlay, BGP EVPN overlay, VLAN 10 on VXLAN VNI 10010 | [Juniper EVPN-VXLAN lab](https://www.netpilot.io/blog/juniper-evpn-vxlan-lab) |
+| [jncia-practice](jncia-practice) | Two vJunos-routers and two Linux hosts, with seven exercises mapped to the JN0-106 objectives | [JNCIA-Junos practice lab](https://www.netpilot.io/blog/jncia-practice-lab) |
+| [evpn-vxlan-spine-leaf](evpn-vxlan-spine-leaf) | A vJunos-router spine and two vJunos-switch leaves: OSPF underlay, BGP EVPN overlay, VLAN 10 on VXLAN VNI 10010 | [Juniper EVPN-VXLAN lab](https://www.netpilot.io/blog/juniper-evpn-vxlan-lab) |
 
 Setup steps, traps and the switch kind are in [Run vJunos in containerlab](https://www.netpilot.io/blog/vjunos-containerlab).
 
@@ -13,8 +13,8 @@ Setup steps, traps and the switch kind are in [Run vJunos in containerlab](https
 
 - containerlab, tested on v0.77.0
 - A Linux host with Docker and KVM. If the host is itself a VM, turn on nested virtualization.
-- 4 vCPU and 5 GiB of memory per vJunos node: 8 vCPU and 10 GiB for lab 01, 12 vCPU and 15 GiB for lab 02, plus room for the hosts.
-- The vJunos-router image (both labs) and the vJunos-switch image (lab 02), which you bring yourself
+- 4 vCPU and 5 GiB of memory per vJunos node: 8 vCPU and 10 GiB for jncia-practice, 12 vCPU and 15 GiB for evpn-vxlan-spine-leaf, plus room for the hosts.
+- The vJunos-router image (both labs) and the vJunos-switch image (evpn-vxlan-spine-leaf), which you bring yourself
 
 ## Get the image
 
@@ -34,8 +34,8 @@ The labs use `vrnetlab/juniper_vjunos-router:26.2R1.7` and `vrnetlab/juniper_vju
 ## Run the lab
 
 ```bash
-git clone https://github.com/netpilot-labs/juniper-labs
-cd juniper-labs/01-jncia-practice
+git clone https://github.com/netpilot-labs/network-labs
+cd network-labs/juniper/jncia-practice
 sudo containerlab deploy -t jncia-practice.clab.yml
 ```
 

@@ -1,1 +1,1 @@
-../../../chr-launch.sh
+../../../../mikrotik/chr-launcher/chr-launch.sh

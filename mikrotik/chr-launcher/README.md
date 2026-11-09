@@ -35,8 +35,8 @@ containerlab kind, `mikrotik_chr`, in [containerlab#3498](https://github.com/srl
 Requirements: containerlab and Docker. KVM (`/dev/kvm`) makes the boot fast but is optional.
 
 ```bash
-git clone https://github.com/netpilot-labs/containerlab-mikrotik-chr
-cd containerlab-mikrotik-chr/examples/two-routers
+git clone https://github.com/netpilot-labs/network-labs
+cd network-labs/mikrotik/chr-launcher/example
 sudo containerlab deploy -t lab.clab.yml
 docker logs -f clab-chr-two-routers-r1     # wait for "chr-launch: RouterOS ready" (about 40 to 70 s)
 ssh admin@clab-chr-two-routers-r1          # password: admin
@@ -123,7 +123,7 @@ interfaces after a restart.
 
 As the `mikrotik_chr` kind, on amd64 with and without KVM and on arm64 without KVM, RouterOS 7.24.5
 (stable), 7.23.8 (long-term) and 7.25rc2 (testing): 244 checks, the scripts in
-[`bench/kind-matrix`](bench/kind-matrix) and the results in
+[`benchmarks/containerlab/mikrotik-chr-kind-matrix`](../../benchmarks/containerlab/mikrotik-chr-kind-matrix) and the results in
 [containerlab#3498](https://github.com/srl-labs/containerlab/pull/3498). In standalone mode with the
 `mikrotik_ros` kind on containerlab 0.77.0: the example lab above, SSH by node name, transparent
 management, the data plane and the console.

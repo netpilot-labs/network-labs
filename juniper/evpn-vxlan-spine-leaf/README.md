@@ -29,8 +29,8 @@ Build this from one prompt in NetPilot with the [Juniper EVPN-VXLAN prompt](http
 ## Run the lab
 
 ```bash
-git clone https://github.com/netpilot-labs/juniper-labs
-cd juniper-labs/02-evpn-vxlan-spine-leaf
+git clone https://github.com/netpilot-labs/network-labs
+cd network-labs/juniper/evpn-vxlan-spine-leaf
 sudo containerlab deploy -t evpn-vxlan-spine-leaf.clab.yml
 ```
 

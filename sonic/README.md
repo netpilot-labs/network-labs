@@ -4,9 +4,9 @@ Three containerlab labs for the SONiC network operating system. Each one runs on
 
 | Lab | What it builds | Tutorial |
 |---|---|---|
-| [01-two-switches](01-two-switches) | Two SONiC switches on one link, configured by hand | [Run SONiC in containerlab](https://www.netpilot.io/blog/sonic-containerlab) |
-| [02-bgp-leaf-spine](02-bgp-leaf-spine) | Two spines, two leaves and two Linux hosts with eBGP and ECMP, configured at deploy | [SONiC FRR: configure BGP on a SONiC switch](https://www.netpilot.io/blog/sonic-frr-bgp) |
-| [03-evpn-l2vni](03-evpn-l2vni) | One spine, two leaves and two hosts with VLAN 100 stretched over VNI 10100, configured at deploy | [Learn VXLAN EVPN on SONiC](https://www.netpilot.io/solutions/learn-vxlan-evpn-sonic) |
+| [two-switches](two-switches) | Two SONiC switches on one link, configured by hand | [Run SONiC in containerlab](https://www.netpilot.io/blog/sonic-containerlab) |
+| [bgp-leaf-spine](bgp-leaf-spine) | Two spines, two leaves and two Linux hosts with eBGP and ECMP, configured at deploy | [SONiC FRR: configure BGP on a SONiC switch](https://www.netpilot.io/blog/sonic-frr-bgp) |
+| [evpn-l2vni](evpn-l2vni) | One spine, two leaves and two hosts with VLAN 100 stretched over VNI 10100, configured at deploy | [Learn VXLAN EVPN on SONiC](https://www.netpilot.io/solutions/learn-vxlan-evpn-sonic) |
 
 ## Requirements
 
@@ -26,12 +26,12 @@ docker load -i docker-sonic-vs.gz
 ## Run a lab
 
 ```bash
-git clone https://github.com/netpilot-labs/sonic-labs
-cd sonic-labs/02-bgp-leaf-spine
+git clone https://github.com/netpilot-labs/network-labs
+cd network-labs/sonic/bgp-leaf-spine
 sudo containerlab deploy -t bgp-leaf-spine.clab.yml
 ```
 
-Deploy returns in about 20 seconds, while the switches are still starting. Labs 02 and 03 configure themselves and were ready about 60 seconds after the deploy began. Each switch is a container with a root shell:
+Deploy returns in about 20 seconds, while the switches are still starting. bgp-leaf-spine and evpn-l2vni configure themselves and were ready about 60 seconds after the deploy began. Each switch is a container with a root shell:
 
 ```bash
 docker exec -it clab-sonic-bgp-leaf1 bash
@@ -50,7 +50,7 @@ sudo containerlab destroy -t bgp-leaf-spine.clab.yml --cleanup
 - `show version` fails with `KeyError: 'debian_version'`. Read `/etc/sonic/sonic_version.yml`.
 - `bgpd` is stopped at boot. `supervisorctl start bgpd` starts it.
 - BGP state is read through `vtysh`. `show ip bgp summary` answers `No such command 'bgp'`.
-- Do not use `docker restart` on a node. It loses the node's links and its services do not come back. Destroy and deploy again, which is why labs 02 and 03 keep their config in `configs/`.
+- Do not use `docker restart` on a node. It loses the node's links and its services do not come back. Destroy and deploy again, which is why bgp-leaf-spine and evpn-l2vni keep their config in `configs/`.
 
 ## Tested with
 

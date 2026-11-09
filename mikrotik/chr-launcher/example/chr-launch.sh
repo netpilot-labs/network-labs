@@ -1,1 +1,1 @@
-../../chr-launch.sh
+../chr-launch.sh
