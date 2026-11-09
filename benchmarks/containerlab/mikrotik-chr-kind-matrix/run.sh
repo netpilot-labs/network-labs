@@ -1,3 +1,4 @@
+. ~/m/lib.sh  # CLAB and the helpers live there
 cd ~/m; for s in A B C D E F; do echo "######## $s"; bash $s.sh 2>&1; done
 $CLAB destroy -t ~/m/A/a-7.24.5.clab.yml --cleanup >/dev/null 2>&1
 echo "######## G"; bash ~/m/G.sh 2>&1
