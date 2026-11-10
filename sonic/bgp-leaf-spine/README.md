@@ -28,6 +28,10 @@ The route shows two next hops, one through each spine. The fabric was ready abou
 
 [The prompt](https://github.com/netpilot-labs/example-prompts/blob/main/data-center/sonic-bgp-leaf-spine-ecmp.md) builds the same fabric in [NetPilot](https://www.netpilot.io/sonic-nos-lab), shows the ECMP routes on both leaves and pings host to host.
 
+## Prove the design
+
+[A second prompt](https://github.com/netpilot-labs/example-prompts/blob/main/poc/design-validation-spine-failure.md) builds the same fabric, shuts spine1 and shows host1 still reaching host2 through spine2.
+
 ## Tutorial
 
 [SONiC FRR: configure BGP on a SONiC switch](https://www.netpilot.io/blog/sonic-frr-bgp), with BFD and the failover numbers.
