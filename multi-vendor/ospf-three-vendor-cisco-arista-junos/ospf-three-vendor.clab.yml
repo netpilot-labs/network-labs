@@ -1,0 +1,18 @@
+name: ospf-three-vendor
+topology:
+  nodes:
+    R1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.1
+      startup-config: configs/R1.cfg
+    R2:
+      kind: arista_ceos
+      image: ceos:4.36.1F
+      startup-config: configs/R2.cfg
+    R3:
+      kind: juniper_crpd
+      image: crpd:23.2R1.13
+      startup-config: configs/R3.conf
+  links:
+    - endpoints: ["R1:Ethernet0/1", "R2:eth1_1"]
+    - endpoints: ["R2:eth1_2", "R3:eth1"]
