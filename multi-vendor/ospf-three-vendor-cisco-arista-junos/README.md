@@ -32,7 +32,7 @@ Set your own passwords where the configs read `<set-a-password>` before you depl
 
 The recorded NetPilot run on 2026-11-11, built from one ChatGPT prompt: Cisco IOL 17.12.1, Arista cEOS 4.36.1F and Juniper cRPD 23.2R1.13. R2 read two neighbors FULL, R1 and R3 one each, R3 learned 1.1.1.1/32 and 2.2.2.2/32 through OSPF, and the ping from 1.1.1.1 to 3.3.3.3 got 5 of 5 replies.
 
-Changes from the run, for portability: the lab is renamed from `three-vendor-ospf-line-20261111` to `ospf-three-vendor`, the fixed management subnet and addresses are dropped (containerlab picks its default), the startup-config paths point at `configs/`, and the two lab passwords are replaced by a placeholder. The run deployed the original files: these portability edits were not redeployed as a package.
+Changes from the run, for portability: the lab is renamed from `three-vendor-ospf-line-20261111` to `ospf-three-vendor`, the fixed management subnet and addresses are dropped (containerlab picks its default), the startup-config paths point at `configs/` (kept as `.partial` files, so containerlab merges them into its default management and SSH setup, as the run did), and the two lab passwords are replaced by a placeholder. The run deployed the original files: these portability edits were not redeployed as a package.
 
 ## Build it from one prompt
 
