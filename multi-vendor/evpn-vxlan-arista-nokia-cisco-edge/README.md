@@ -74,7 +74,7 @@ A frozen spine keeps its links up, so the leaves only notice it when a timer exp
 
 Three details that stop this lab when it is built by hand. SR Linux eBGP imports and exports nothing until a routing policy allows it, so leaf2 has an accept-all import policy, an export policy for its loopback on the underlay and accept-all on the EVPN group. The spines carry EVPN routes between two leaves in different autonomous systems, so they keep the next hop unchanged. The two leaves share the anycast gateway MAC 00:00:5e:00:01:01, so a host sees the same gateway on either leaf.
 
-Each node keeps containerlab's default login for its kind: change it before you expose the lab. You bring the Arista cEOS and Cisco IOL images yourself: the [Arista](../../arista/README.md) and [Cisco](../../cisco/README.md) READMEs say where to get them. Nokia SR Linux and the network-multitool hosts are public images.
+Set your own password where the three Arista configs read `<set-a-password>` before you deploy: a cEOS startup config replaces containerlab's default one, login included. The Nokia and Cisco nodes keep containerlab's default login for their kind. You bring the Arista cEOS and Cisco IOL images yourself: the [Arista](../../arista/README.md) and [Cisco](../../cisco/README.md) READMEs say where to get them. Nokia SR Linux and the network-multitool hosts are public images.
 
 ## Tested on
 
@@ -88,7 +88,7 @@ The recorded NetPilot run on 2026-11-13, on containerlab 0.77.0: Arista cEOS 4.3
 - Spine test with BFD (spine2, since all traffic had moved onto it): outage 2.90 s on both flows, about 66% shorter. The gap ended 16 ms after the Nokia leaf's BFD expired, so in this lab its 1 s × 3 timers set the floor
 - Redeployed from these startup files with BFD saved in: BFD up on all 8 sessions, all 4 host pings 5 of 5
 
-Changes from the run, for portability: the lab is renamed from `dc-evpn-ceos-srl-01` to `evpn-vxlan-fabric`, the fixed management subnet and addresses are dropped (containerlab picks its default), the startup-config paths point at `configs/` (kept as `.partial` files, so containerlab merges them into its default management and SSH setup, as the run did), and the login line of the three Arista configs is dropped, so they keep containerlab's default. The run deployed the original files: these portability edits were not redeployed as a package.
+Changes from the run, for portability: the lab is renamed from `dc-evpn-ceos-srl-01` to `evpn-vxlan-fabric`, the fixed management subnet and addresses are dropped (containerlab picks its default), the startup-config paths point at `configs/` (file names kept as the run deployed them), and the lab password in the three Arista configs is replaced by a placeholder. The run deployed the original files: these portability edits were not redeployed as a package.
 
 ## Build it from one prompt
 

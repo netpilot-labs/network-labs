@@ -1,4 +1,5 @@
 hostname spine2
+username admin privilege 15 role network-admin secret <set-a-password>
 service routing protocols model multi-agent
 ip routing
 !
