@@ -1,0 +1,93 @@
+hostname leaf1
+service routing protocols model multi-agent
+ip routing
+!
+vlan 10
+   name STRETCHED
+!
+vrf instance TENANT
+ip routing vrf TENANT
+!
+ip virtual-router mac-address 00:00:5e:00:01:01
+!
+interface Ethernet1/1
+   description spine1
+   no switchport
+   mtu 9214
+   ip address 10.1.1.1/31
+   bfd interval 300 min-rx 300 multiplier 3
+!
+interface Ethernet1/2
+   description spine2
+   no switchport
+   mtu 9214
+   ip address 10.1.2.1/31
+   bfd interval 300 min-rx 300 multiplier 3
+!
+interface Ethernet1/3
+   description host1
+   switchport mode access
+   switchport access vlan 10
+!
+interface Ethernet1/4
+   description wan1 (VRF TENANT)
+   no switchport
+   vrf TENANT
+   ip address 172.16.255.2/30
+!
+interface Loopback0
+   ip address 10.255.0.11/32
+!
+interface Vlan10
+   vrf TENANT
+   ip address virtual 10.10.10.1/24
+!
+interface Vxlan1
+   vxlan source-interface Loopback0
+   vxlan udp-port 4789
+   vxlan vlan 10 vni 10010
+   vxlan vrf TENANT vni 50001
+!
+router bgp 65001
+   router-id 10.255.0.11
+   no bgp default ipv4-unicast
+   maximum-paths 4 ecmp 4
+   neighbor UNDERLAY peer group
+   neighbor UNDERLAY remote-as 65100
+   neighbor UNDERLAY timers 3 9
+   neighbor UNDERLAY bfd
+   neighbor EVPN peer group
+   neighbor EVPN remote-as 65100
+   neighbor EVPN update-source Loopback0
+   neighbor EVPN ebgp-multihop 5
+   neighbor EVPN send-community extended
+   neighbor 10.1.1.0 peer group UNDERLAY
+   neighbor 10.1.2.0 peer group UNDERLAY
+   neighbor 10.255.0.1 peer group EVPN
+   neighbor 10.255.0.2 peer group EVPN
+   network 10.255.0.11/32
+   !
+   vlan 10
+      rd 10.255.0.11:10010
+      route-target both 65000:10010
+      redistribute learned
+   !
+   address-family evpn
+      neighbor EVPN activate
+   !
+   address-family ipv4
+      neighbor UNDERLAY activate
+   !
+   vrf TENANT
+      rd 10.255.0.11:50001
+      route-target import evpn 65000:50001
+      route-target export evpn 65000:50001
+      router-id 10.255.0.11
+      neighbor 172.16.255.1 remote-as 65500
+      redistribute connected
+      !
+      address-family ipv4
+         neighbor 172.16.255.1 activate
+!
+end
+
