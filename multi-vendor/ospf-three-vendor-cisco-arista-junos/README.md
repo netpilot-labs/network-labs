@@ -2,11 +2,7 @@
 
 Three routers from three vendors in a line, every link and loopback in OSPF area 0. The Arista router in the middle has two FULL neighbors, the Cisco and Junos routers one each, and the loopbacks reach each other end to end.
 
-```
-R1 Cisco IOL ---- 10.0.12.0/30 ---- R2 Arista cEOS ---- 10.0.23.0/30 ---- R3 Junos (cRPD)
-Lo0 1.1.1.1/32                      Lo0 2.2.2.2/32                       lo0 3.3.3.3/32
-Ethernet0/1 .1                      Ethernet1/1 .2, Ethernet1/2 .1       eth1 .2
-```
+![R1 (Cisco IOL) links to R2 (Arista cEOS) on 10.0.12.0/30, and R2 links to R3 (Juniper cRPD) on 10.0.23.0/30](topology.png)
 
 ## Run it
 

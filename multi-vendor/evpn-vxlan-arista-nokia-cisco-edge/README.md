@@ -2,23 +2,7 @@
 
 A leaf-spine data center fabric across three vendors: two Arista cEOS spines, an Arista cEOS border leaf, a Nokia SR Linux leaf and a Cisco IOL router as the WAN edge. eBGP underlay, BGP EVPN overlay, VLAN 10 stretched over VXLAN between the two leaves, VRF TENANT routed on an L3 VNI, and a default route from the Cisco edge carried into the VRF as an EVPN route. BFD runs on every underlay session.
 
-```
-   spine1 Arista cEOS                     spine2 Arista cEOS
-   AS 65100, Lo0 10.255.0.1               AS 65100, Lo0 10.255.0.2
-        |        \                     /        |
-        |           \               /           |
-        |              \         /              |
-        |                 \   /                 |
-        |                   X                   |
-        |                 /   \                 |
-        |              /         \              |
-   leaf1 Arista cEOS, border leaf         leaf2 Nokia SR Linux
-   AS 65001, VTEP 10.255.0.11             AS 65002, VTEP 10.255.0.12
-     |                |                       |
-   wan1 Cisco IOL   host1 10.10.10.11/24    host2 10.10.10.12/24
-   AS 65500
-   Lo0 203.0.113.1
-```
+![spine1 and spine2 (Arista cEOS, AS 65100) each link to leaf1 (Arista cEOS border leaf, AS 65001) and leaf2 (Nokia SR Linux, AS 65002). wan1 (Cisco IOL, AS 65500) links to leaf1. host1 (Linux host) on leaf1, host2 (Linux host) on leaf2](topology.png)
 
 | Item | Value |
 |---|---|

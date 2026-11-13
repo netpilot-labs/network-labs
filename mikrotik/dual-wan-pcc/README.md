@@ -2,10 +2,7 @@
 
 A RouterOS 7 gateway with uplinks to two ISP routers, PCC load balancing across them, and a failover route for each WAN. Both ISPs reach one web server, and a PC sits on the LAN.
 
-```
-pc1 --- ether4 [gw] ether2 --- isp1 ---+
-                   ether3 --- isp2 ---+--- web 203.0.113.10
-```
+![gw (MikroTik CHR) links to isp1 (MikroTik CHR) on ether2 and to isp2 (MikroTik CHR) on ether3. pc1 (Linux host) on gw ether4. isp1 and isp2 each link to web (Linux host, 203.0.113.10)](topology.png)
 
 ## Run it
 

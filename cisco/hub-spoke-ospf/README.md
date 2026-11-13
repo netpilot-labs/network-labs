@@ -2,6 +2,8 @@
 
 A head office and two branches on real Cisco IOS (Cisco IOL 17.12.1): three routers in OSPF area 0, each branch linked only to the head office, a Linux host on each LAN. The configs here are the ones an AI agent designed, wrote and deployed from a written requirement in a recorded run. Then one fault was planted by hand and the agent got only the user's symptom.
 
+![HQ-R1 (Cisco IOL) links to BRA-R1 and BRB-R1 (Cisco IOL). HQ-H1 (Linux host) on HQ-R1, BRA-H1 (Linux host) on BRA-R1, BRB-H1 (Linux host) on BRB-R1](topology.png)
+
 Watch the run: [AI for Network Engineers: 5 Real Tasks on a Real Cisco Lab, Scored](https://www.youtube.com/watch?v=H2xePvVEauA). Read the scorecard: [five tasks, one scorecard](https://www.netpilot.io/blog/ai-tools-for-network-engineers#tested-on-a-real-cisco-lab-five-tasks-one-scorecard).
 
 ## The lab

@@ -2,16 +2,7 @@
 
 Two cEOS leaves in one MLAG domain with VARP gateways on VLANs 10 and 20. h1 is dual-homed on an LACP bond, and sw3 hangs off both leaves on an MLAG port channel with h2 behind it.
 
-```
-           Port-Channel10 (peer link, Ethernet1-2)
-    leaf1 ===================================== leaf2
-    Vlan10 .2  Vlan20 .2                Vlan10 .3  Vlan20 .3
-      |  \                                  /  |
-      |   +------ mlag 2: sw3 --- h2 -------+   |
-      +---------- mlag 1: h1 bond0 ------------+
-VARP gateways 10.10.10.1 and 10.20.20.1
-h1 10.10.10.10 (VLAN 10), h2 10.20.20.10 (VLAN 20)
-```
+![leaf1 and leaf2 (Arista cEOS) joined by two links in peer link Port-Channel10, with VARP gateways 10.10.10.1 and 10.20.20.1. h1 (Linux host, 10.10.10.10, VLAN 10) links to both leaves on bond0 (mlag 1). sw3 (Arista cEOS) links to both leaves (mlag 2), and h2 (Linux host, 10.20.20.10, VLAN 20) links to sw3](topology.png)
 
 ## Run it
 

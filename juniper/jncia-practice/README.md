@@ -2,10 +2,7 @@
 
 Two vJunos-routers and two Linux hosts. The startup config holds addresses only, so you do the rest by hand.
 
-```
-h1 --- ge-0/0/1 [r1] ge-0/0/0 --- ge-0/0/0 [r2] ge-0/0/1 --- h2
-10.1.1.10      10.1.1.1  10.0.12.1/30  10.0.12.2  10.2.2.1   10.2.2.10
-```
+![r1 and r2 (Juniper vJunos-router) link ge-0/0/0 to ge-0/0/0 on 10.0.12.0/30. h1 (Linux host, 10.1.1.10) on r1 ge-0/0/1, h2 (Linux host, 10.2.2.10) on r2 ge-0/0/1](topology.png)
 
 Loopbacks: r1 `10.255.0.1`, r2 `10.255.0.2`.
 

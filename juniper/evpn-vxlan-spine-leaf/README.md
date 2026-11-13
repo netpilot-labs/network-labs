@@ -2,19 +2,7 @@
 
 One vJunos-router spine, two vJunos-switch leaves and a Linux host on each leaf. OSPF area 0 is the underlay, iBGP in AS 65000 carries EVPN with the spine as route reflector, and VLAN 10 maps to VXLAN VNI 10010 on both leaves. The two hosts share one subnet, so their ping crosses VXLAN.
 
-```
-                  spine1 (vJunos-router)  lo0 10.255.0.1
-                  ge-0/0/0          ge-0/0/1
-               10.0.11.1/30        10.0.12.1/30
-                    |                    |
-               10.0.11.2/30        10.0.12.2/30
-                  ge-0/0/0          ge-0/0/0
-leaf1 (vJunos-switch) lo0 10.255.0.11    leaf2 (vJunos-switch) lo0 10.255.0.12
-                  ge-0/0/1          ge-0/0/1
-                    |  VLAN 10 access   |
-                  host1                host2
-             192.168.10.11/24      192.168.10.12/24
-```
+![spine1 (Juniper vJunos-router, lo0 10.255.0.1) links to leaf1 (Juniper vJunos-switch, lo0 10.255.0.11) on 10.0.11.0/30 and to leaf2 (Juniper vJunos-switch, lo0 10.255.0.12) on 10.0.12.0/30. host1 (Linux host, 192.168.10.11) on leaf1, host2 (Linux host, 192.168.10.12) on leaf2, both in VLAN 10](topology.png)
 
 The three startup configs are the ones from our recorded run, unchanged. The spine has no EVPN instance: it reflects `family evpn signaling` between the leaves with `cluster 10.255.0.1`. Each leaf uses `vtep-source-interface lo0.0`, route distinguisher `<loopback>:1` and `vrf-target target:65000:10010`. Fabric links run MTU 9000.
 

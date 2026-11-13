@@ -2,15 +2,7 @@
 
 One spine and two leaves with an eBGP underlay and a BGP EVPN overlay. VLAN 100 on each leaf maps to VNI 10100, so the two hosts share one subnet across the fabric. Each switch configures itself at deploy from its script in `configs/`.
 
-```
-              spine (AS 65000)
-              /              \
-    leaf1 (AS 65001)      leaf2 (AS 65002)
-    VTEP 10.1.1.1          VTEP 10.1.1.2
-         |                       |
-  host1 192.168.100.11    host2 192.168.100.12
-         VLAN 100 = VNI 10100
-```
+![spine (SONiC, AS 65000) links to leaf1 (SONiC, AS 65001, VTEP 10.1.1.1) and leaf2 (SONiC, AS 65002, VTEP 10.1.1.2). host1 (Linux host, 192.168.100.11) on leaf1, host2 (Linux host, 192.168.100.12) on leaf2, VLAN 100 on VNI 10100](topology.png)
 
 ## Run it
 

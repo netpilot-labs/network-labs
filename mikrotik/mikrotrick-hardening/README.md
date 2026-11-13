@@ -2,9 +2,7 @@
 
 An edge router set up the way many end up: NAT for the LAN and no firewall rules, so management answers from the WAN. You scan it from outside, audit it, harden it, and prove the result from outside again. No exploit is run, and RouterOS 7.24.5 is past every MikroTrick fix.
 
-```text
-out 203.0.113.1 ── ether2 edge ether3 ── pc1 192.168.88.10
-```
+![edge (MikroTik CHR) links to out (Linux host, 203.0.113.1) on ether2 and to pc1 (Linux host, 192.168.88.10) on ether3](topology.png)
 
 Tutorial: [MikroTik firewall hardening after MikroTrick](https://www.netpilot.io/blog/mikrotik-firewall-hardening)
 

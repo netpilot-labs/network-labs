@@ -2,14 +2,7 @@
 
 Two spines, two leaves and two Linux hosts. Each switch configures itself at deploy from its script in `configs/`: interfaces in CONFIG_DB, BGP in FRR. Each leaf learns the other leaf's LAN over two equal-cost paths.
 
-```
-        spine1 (AS 65000)    spine2 (AS 65000)
-             |      \        /      |
-             |       \      /       |
-        leaf1 (AS 65001)    leaf2 (AS 65002)
-             |                      |
-   host1 192.168.1.10      host2 192.168.2.10
-```
+![spine1 and spine2 (SONiC, AS 65000) each link to leaf1 (SONiC, AS 65001) and leaf2 (SONiC, AS 65002). host1 (Linux host, 192.168.1.10) on leaf1, host2 (Linux host, 192.168.2.10) on leaf2](topology.png)
 
 Leaf loopbacks are 10.255.0.11 and 10.255.0.12. Every leaf-to-spine link is a /31.
 

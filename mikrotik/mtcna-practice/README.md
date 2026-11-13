@@ -2,11 +2,7 @@
 
 A RouterOS gateway, an ISP router, a web server and two PCs, for practice with DHCP, bridging, NAT, the firewall, queues and PPPoE. The ISP hands the gateway its WAN address over DHCP. The gateway's startup config `gw.rsc` already applies exercises 1 to 4 (the DHCP client, the LAN bridge and DHCP server, NAT and the firewall), so you can read along. To type them yourself, delete those lines before you deploy.
 
-```
-pc1 ---+
-       +--- ether3/ether4 [gw] ether2 --- ether2 [isp] ether3 --- web 203.0.113.10
-pc2 ---+
-```
+![gw (MikroTik CHR) links ether2 to ether2 on isp (MikroTik CHR). pc1 (Linux host) on gw ether3, pc2 (Linux host) on gw ether4, web (Linux host, 203.0.113.10) on isp ether3](topology.png)
 
 ## Run it
 

@@ -2,10 +2,7 @@
 
 Two SONiC switches on one link and nothing else. The topology has no startup config, so you bring up the ports, ping across the link and start eBGP by hand, which is how the tutorial walks through it.
 
-```
-sw1 Ethernet0 --- 10.0.0.0/31 --- Ethernet0 sw2
-AS 65001                          AS 65002
-```
+![sw1 (SONiC, AS 65001) and sw2 (SONiC, AS 65002) link Ethernet0 to Ethernet0 on 10.0.0.0/31](topology.png)
 
 ## Run it
 

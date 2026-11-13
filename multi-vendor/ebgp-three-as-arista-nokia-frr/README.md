@@ -2,11 +2,7 @@
 
 Three routers from three vendors in a chain, each in its own AS, each advertising its loopback into eBGP. Nokia SR Linux in the middle carries the Arista and FRR routes between them.
 
-```
-R1 Arista cEOS ---- 10.1.2.0/30 ---- R2 Nokia SR Linux ---- 10.2.3.0/30 ---- R3 FRR
-AS 65001, Lo0 1.1.1.1              AS 65002, system0 2.2.2.2            AS 65003, lo 3.3.3.3
-Ethernet1/1 .1                     ethernet-1/1 .2, ethernet-1/2 .1     eth1 .2
-```
+![R1 (Arista cEOS, AS 65001) links to R2 (Nokia SR Linux, AS 65002) on 10.1.2.0/30, and R2 links to R3 (FRR, AS 65003) on 10.2.3.0/30](topology.png)
 
 ## Run it
 

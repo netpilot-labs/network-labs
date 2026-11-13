@@ -2,10 +2,7 @@
 
 Two RouterOS CHR routers on one link, OSPF in area 0, and a loopback on each that the other router learns.
 
-```
-r1 ether2 --- 10.0.12.0/30 --- ether2 r2
-loopback 10.255.0.1        loopback 10.255.0.2
-```
+![r1 (MikroTik CHR, loopback 10.255.0.1) and r2 (MikroTik CHR, loopback 10.255.0.2) link ether2 to ether2 on 10.0.12.0/30](topology.png)
 
 ## Run it
 

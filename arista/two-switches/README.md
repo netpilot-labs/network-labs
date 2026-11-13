@@ -2,10 +2,7 @@
 
 Two cEOS switches with eBGP between them and a Linux host behind each. The startup configs in `configs/` set everything at deploy, so the hosts reach each other with no typing.
 
-```
-h1 10.1.1.10 --- Ethernet2 [sw1] Ethernet1 --- 10.0.12.0/31 --- Ethernet1 [sw2] Ethernet2 --- h2 10.2.2.10
-                 AS 65001, Lo0 10.255.0.1                     AS 65002, Lo0 10.255.0.2
-```
+![sw1 (Arista cEOS, AS 65001) and sw2 (Arista cEOS, AS 65002) link Ethernet1 to Ethernet1 on 10.0.12.0/31. h1 (Linux host, 10.1.1.10) on sw1 Ethernet2, h2 (Linux host, 10.2.2.10) on sw2 Ethernet2](topology.png)
 
 ## Run it
 

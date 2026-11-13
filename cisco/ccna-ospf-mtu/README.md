@@ -2,6 +2,8 @@
 
 The classic two-router CCNA OSPF lab, run on real Cisco IOS (Cisco IOL 17.12.1) instead of a simulator. One detail is planted for you to find: R2's link to R1 runs at IP MTU 1400 while R1 stays at the default 1500.
 
+![R1 and R2 (Cisco IOL) link to each other. host1 (Linux host, 192.168.1.10) on R1, host2 (Linux host, 192.168.2.10) on R2](topology.png)
+
 Watch the run: [Packet Tracer vs Real Cisco IOS: Your CCNA Lab Online, No Install](https://www.youtube.com/watch?v=OgvgcCUHu8g). Read it with every output: [the same CCNA lab on real Cisco IOS](https://www.netpilot.io/blog/network-simulator-online-free#the-same-ccna-lab-on-real-cisco-ios).
 
 ## The lab
