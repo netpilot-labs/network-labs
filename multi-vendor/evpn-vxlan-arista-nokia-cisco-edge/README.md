@@ -80,4 +80,4 @@ Changes from the run, for portability: the lab is renamed from `dc-evpn-ceos-srl
 
 ## Tutorial
 
-[Validate an EVPN VXLAN fabric design before you build it](https://www.netpilot.io/blog/validate-evpn-vxlan-fabric-design) · [watch](https://www.youtube.com/watch?v=L5JOBu22jgw)
+[Validate an EVPN VXLAN fabric design before you build it](https://www.netpilot.io/blog/validate-evpn-vxlan-fabric-design) · [watch](https://www.youtube.com/watch?v=IyGWNQsMI28)
