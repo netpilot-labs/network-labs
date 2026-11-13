@@ -40,4 +40,4 @@ Changes from the run, for portability: the lab is renamed from `three-vendor-osp
 
 ## Tutorial
 
-[Build a multi-vendor network lab from ChatGPT](https://www.netpilot.io/blog/chatgpt-multi-vendor-network-lab) · [watch](https://www.youtube.com/watch?v=TmKdDaRiwr4)
+[Build a multi-vendor network lab from ChatGPT](https://www.netpilot.io/blog/chatgpt-multi-vendor-network-lab) · [watch](https://www.youtube.com/watch?v=RSbXFoUDr98)

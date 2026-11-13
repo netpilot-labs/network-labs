@@ -93,3 +93,7 @@ Changes from the run, for portability: the lab is renamed from `dc-evpn-ceos-srl
 ## Build it from one prompt
 
 [The prompt](https://github.com/netpilot-labs/example-prompts/blob/main/multi-vendor/evpn-vxlan-fabric-design-check.md) states this design in plain words, builds it in [NetPilot](https://www.netpilot.io), checks it on each device's CLI, and runs the spine test before and after BFD.
+
+## Tutorial
+
+[Validate an EVPN VXLAN fabric design before you build it](https://www.netpilot.io/blog/validate-evpn-vxlan-fabric-design) · [watch](https://www.youtube.com/watch?v=L5JOBu22jgw)
