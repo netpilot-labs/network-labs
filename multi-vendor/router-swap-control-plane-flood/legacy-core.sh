@@ -19,11 +19,11 @@
 # which kills the watcher and, for each cisco_iol container of the lab, does the same as
 #   echo "max 100000" | sudo tee /sys/fs/cgroup/system.slice/docker-<container id>.scope/cpu.max
 # The tc clsact counters it added stay on the nodes' interfaces until the lab is destroyed (they only count packets).
-PERIOD=${PERIOD:-1000000}; ON=${ON:-30}; KEEP=${KEEP:-10}; PROBE=${PROBE:-50}; RUN=${RUN:-14400}; LAB=${LAB:-router-swap-flood}; T0=$(date +%s); LP=$T0
+PERIOD=${PERIOD:-1000000}; ON=${ON:-30}; KEEP=${KEEP:-10}; PROBE=${PROBE:-50}; RUN=${RUN:-14400}; LAB=${LAB:-router-swap-flood}; PIDF=/tmp/legacy-core-$LAB.pid; T0=$(date +%s); LP=$T0
 declare -A tight
 cg(){ echo /sys/fs/cgroup/system.slice/docker-$(docker inspect -f '{{.Id}}' $1).scope/cpu.max; }
 if [ "$1" = "--off" ]; then
- sudo pkill -f 'legacy-core\.sh$'   # the watcher (started with no arguments), not this --off call
+ [ -f $PIDF ] && sudo kill $(cat $PIDF); sudo rm -f $PIDF   # this lab's watcher only
  for c in $(docker ps -q --filter label=containerlab=$LAB --filter label=clab-node-kind=cisco_iol); do echo "max 100000" | sudo tee $(cg $c) >/dev/null; echo "full CPU $(docker inspect -f '{{.Name}}' $c)"; done
  exit 0
 fi
@@ -34,7 +34,8 @@ rst(){ local pid=$(docker inspect -f '{{.State.Pid}}' $1) tot=0 i p
   p=$(sudo nsenter -t $pid -n tc -s filter show dev $i egress | awk '/Sent/{s+=$4} END{print s+0}'); tot=$(( tot + ${p:-0} )); done; echo $tot; }
 declare -A last
 free_all(){ for c in "${!tight[@]}"; do [ "${tight[$c]}" = 1 ] && echo "max 100000" | sudo tee $(cg $c) >/dev/null; done; }
-trap free_all EXIT; trap 'exit 1' INT TERM
+echo $$ > $PIDF
+trap 'free_all; rm -f $PIDF' EXIT; trap 'exit 1' INT TERM
 while [ $(( $(date +%s) - T0 )) -lt $RUN ]; do
  cs=$(docker ps -q --filter label=containerlab=$LAB --filter label=clab-node-kind=cisco_iol)
  for c in $cs; do t=$(rst $c); r=$(( (t - ${last[$c]:-$t}) / 2 )); last[$c]=$t
