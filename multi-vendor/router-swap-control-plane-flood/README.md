@@ -48,7 +48,7 @@ Set your own password where the Arista config reads `<set-a-password>` before yo
 
 ## Build it from one prompt
 
-[Router swap flood rehearsal](https://github.com/netpilot-labs/example-prompts/blob/main/change-validation/router-swap-flood-rehearsal.md) builds this lab and runs every step above from one plain-English prompt in NetPilot.
+[Router swap flood rehearsal](https://github.com/netpilot-labs/example-prompts/blob/main/change-validation/router-swap-flood-rehearsal.md) builds this lab and runs every step above from one plain-English prompt in NetPilot. The run, its numbers and a cutover checklist: [FAA ground stop: the router swap flood, rebuilt in a lab](https://www.netpilot.io/blog/faa-ground-stop-router-swap-lab).
 
 ## Tested on
 
