@@ -1,0 +1,49 @@
+name: router-swap-flood
+topology:
+  nodes:
+    R1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.1
+      startup-config: configs/R1.txt.partial
+    R2:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.1
+      startup-config: configs/R2.txt.partial
+    R3:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.1
+      startup-config: configs/R3.txt.partial
+    EDGE:
+      kind: arista_ceos
+      image: ceos:4.36.1F
+      startup-config: configs/EDGE.txt.partial
+    host-a:
+      kind: linux
+      image: ghcr.io/srl-labs/network-multitool:latest
+      exec:
+      - ip addr add 10.0.1.10/24 dev eth1
+      - ip link set eth1 mtu 1500
+      - ip route add 10.0.0.0/8 via 10.0.1.1
+    host-b:
+      kind: linux
+      image: ghcr.io/srl-labs/network-multitool:latest
+      exec:
+      - ip addr add 10.0.2.10/24 dev eth1
+      - ip link set eth1 mtu 1500
+      - ip route add 10.0.0.0/8 via 10.0.2.1
+    flood-host:
+      kind: linux
+      image: ghcr.io/srl-labs/network-multitool:latest
+      exec:
+      - ip addr add 10.0.4.10/24 dev eth1
+      - ip link set eth1 mtu 1500
+      - ip route add 10.0.0.0/8 via 10.0.4.1
+  links:
+    - endpoints: ["R1:Ethernet0/1", "R2:Ethernet0/1"]
+    - endpoints: ["R2:Ethernet0/2", "R3:Ethernet0/1"]
+    - endpoints: ["R1:Ethernet0/2", "R3:Ethernet0/2"]
+    - endpoints: ["R1:Ethernet1/0", "EDGE:eth1_1"]
+    - endpoints: ["R3:Ethernet0/3", "EDGE:eth1_2"]
+    - endpoints: ["R1:Ethernet0/3", "host-a:eth1"]
+    - endpoints: ["R2:Ethernet0/3", "host-b:eth1"]
+    - endpoints: ["EDGE:eth1_3", "flood-host:eth1"]

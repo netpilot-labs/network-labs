@@ -1,0 +1,7 @@
+! Inbound filter on EDGE Ethernet1/3 (the flooding site's LAN), as applied in the recorded run
+ip access-list EDGE-IN
+ counters per-entry
+ 10 deny tcp any any eq bgp
+ 20 permit ip any any
+interface Ethernet1/3
+ ip access-group EDGE-IN in

@@ -1,0 +1,15 @@
+! Control plane policing on R1, R2 and R3, as applied in the recorded run
+ip access-list extended COPP-TCP179
+ permit tcp any any eq bgp
+ip access-list extended COPP-OSPF
+ permit ospf any any
+class-map match-all CM-OSPF
+ match access-group name COPP-OSPF
+class-map match-all CM-TCP179
+ match access-group name COPP-TCP179
+policy-map COPP-PROTECT
+ class CM-OSPF
+ class CM-TCP179
+  police 8000 conform-action transmit exceed-action drop
+control-plane
+ service-policy input COPP-PROTECT

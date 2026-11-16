@@ -1,0 +1,27 @@
+hostname R3
+!
+interface Loopback0
+ ip address 10.255.0.3 255.255.255.255
+!
+interface Ethernet0/1
+ ip address 10.0.23.2 255.255.255.252
+ ip ospf network point-to-point
+ no shutdown
+!
+interface Ethernet0/2
+ ip address 10.0.13.2 255.255.255.252
+ ip ospf network point-to-point
+ no shutdown
+!
+interface Ethernet0/3
+ ip address 10.0.34.1 255.255.255.252
+ ip ospf network point-to-point
+ no shutdown
+!
+router ospf 1
+ router-id 10.255.0.3
+ network 10.0.23.0 0.0.0.3 area 0
+ network 10.0.13.0 0.0.0.3 area 0
+ network 10.0.34.0 0.0.0.3 area 0
+ network 10.255.0.3 0.0.0.0 area 0
+!
