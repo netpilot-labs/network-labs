@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-# Misconfig simulator: ~N TCP connection attempts/sec at the Cisco core addresses.
-# Non-blocking connects: one SYN fired per attempt, paced; rate holds even when
-# the SYNs are dropped/policed (we never wait on a reply).
+# Incident reproduction: a newly installed router sends ~N TCP connection
+# attempts/sec at the legacy Cisco core addresses (control-plane punt test).
+# Non-blocking connects: one SYN per attempt, paced; the rate holds even when
+# the SYNs are dropped/policed, because we never wait for a reply.
 import socket, time, sys, itertools
 rate = int(sys.argv[1]) if len(sys.argv) > 1 else 250
 targets = [
     ("10.255.0.1", 179), ("10.255.0.2", 179), ("10.255.0.3", 179),  # core loopbacks
-    ("10.0.12.1", 179),  ("10.0.23.1", 179),  ("10.0.13.2", 179),   # core interface IPs
+    ("10.0.14.1", 179),  ("10.0.34.1", 179),  ("10.0.13.1", 179),    # core interface IPs
 ]
 interval = 1.0 / rate
 cyc = itertools.cycle(targets)
@@ -16,7 +17,7 @@ while True:
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.setblocking(False)
     try:
-        s.connect_ex((ip, port))   # fires the SYN, returns immediately
+        s.connect_ex((ip, port))
     except OSError:
         pass
     finally:

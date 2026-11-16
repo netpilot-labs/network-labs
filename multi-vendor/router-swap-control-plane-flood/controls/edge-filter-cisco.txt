@@ -1,0 +1,15 @@
+! Inbound filter on the two Cisco interfaces facing JNEW, as applied in the recorded run.
+! It drops TCP to port 179 from JNEW's link address and permits everything else, OSPF included.
+! R1
+ip access-list extended EDGE-R1-IN
+ deny tcp host 10.0.14.2 any eq 179
+ permit ip any any
+interface Ethernet1/0
+ ip access-group EDGE-R1-IN in
+!
+! R3
+ip access-list extended EDGE-R3-IN
+ deny tcp host 10.0.34.2 any eq 179
+ permit ip any any
+interface Ethernet0/3
+ ip access-group EDGE-R3-IN in

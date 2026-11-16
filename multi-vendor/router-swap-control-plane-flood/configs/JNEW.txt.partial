@@ -1,0 +1,51 @@
+system {
+    host-name JNEW;
+    root-authentication {
+        plain-text-password-value "<set-a-password>";
+    }
+    services {
+        ssh {
+            root-login allow;
+        }
+    }
+}
+interfaces {
+    eth1 {
+        mtu 1500;
+        unit 0 {
+            family inet {
+                address 10.0.14.2/30;
+            }
+        }
+    }
+    eth2 {
+        mtu 1500;
+        unit 0 {
+            family inet {
+                address 10.0.34.2/30;
+            }
+        }
+    }
+    lo0 {
+        unit 0 {
+            family inet {
+                address 10.255.0.4/32;
+            }
+        }
+    }
+}
+protocols {
+    ospf {
+        area 0.0.0.0 {
+            interface eth1 {
+                interface-type p2p;
+            }
+            interface eth2 {
+                interface-type p2p;
+            }
+            interface lo0.0 {
+                passive;
+            }
+        }
+    }
+}

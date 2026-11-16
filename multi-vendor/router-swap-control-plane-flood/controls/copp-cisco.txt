@@ -1,14 +1,10 @@
-! Control plane policing on R1, R2 and R3, as applied in the recorded run
+! Control plane policing on R1, R2 and R3, as applied in the recorded run: the backstop behind the edge filter.
+! TCP 179 to the route processor is policed to 8 kbps, everything else (OSPF, ICMP, SSH) stays in class-default.
 ip access-list extended COPP-TCP179
- permit tcp any any eq bgp
-ip access-list extended COPP-OSPF
- permit ospf any any
-class-map match-all CM-OSPF
- match access-group name COPP-OSPF
+ permit tcp any any eq 179
 class-map match-all CM-TCP179
  match access-group name COPP-TCP179
 policy-map COPP-PROTECT
- class CM-OSPF
  class CM-TCP179
   police 8000 conform-action transmit exceed-action drop
 control-plane

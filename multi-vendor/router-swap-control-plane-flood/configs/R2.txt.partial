@@ -20,8 +20,8 @@ interface Ethernet0/3
 router ospf 1
  router-id 10.255.0.2
  passive-interface Ethernet0/3
+ network 10.255.0.2 0.0.0.0 area 0
  network 10.0.12.0 0.0.0.3 area 0
  network 10.0.23.0 0.0.0.3 area 0
  network 10.0.2.0 0.0.0.255 area 0
- network 10.255.0.2 0.0.0.0 area 0
 !
