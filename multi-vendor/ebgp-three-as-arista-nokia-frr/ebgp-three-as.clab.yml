@@ -10,11 +10,9 @@ topology:
       image: ghcr.io/nokia/srlinux:latest
       startup-config: configs/R2.cfg
     R3:
-      kind: linux
-      image: frrouting/frr:latest
-      binds:
-        - configs/daemons:/etc/frr/daemons
-        - configs/vtysh.conf:/etc/frr/vtysh.conf
+      kind: frr
+      image: ghcr.io/netpilot-labs/frr:containerlab-10.7.1-np3
+      startup-config: configs/R3.conf
       exec:
         - ip link set dev eth1 mtu 1500
   links:

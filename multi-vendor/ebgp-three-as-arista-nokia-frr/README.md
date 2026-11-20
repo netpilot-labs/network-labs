@@ -8,9 +8,6 @@ Three routers from three vendors in a chain, each in its own AS, each advertisin
 
 ```bash
 sudo containerlab deploy -t ebgp-three-as.clab.yml
-# wait until zebra and bgpd run on R3 (about a minute), then configure it
-docker exec clab-ebgp-three-as-R3 pgrep bgpd
-docker exec -i clab-ebgp-three-as-R3 vtysh < configs/R3.vtysh
 ```
 
 Check it:
@@ -19,20 +16,20 @@ Check it:
 docker exec clab-ebgp-three-as-R1 Cli -c 'show ip bgp summary'
 docker exec clab-ebgp-three-as-R2 sr_cli 'show network-instance default protocols bgp neighbor'
 docker exec clab-ebgp-three-as-R3 vtysh -c 'show bgp ipv4 unicast summary'
-docker exec clab-ebgp-three-as-R1 Cli -c 'ping 3.3.3.3 source 1.1.1.1 repeat 5'
+docker exec clab-ebgp-three-as-R1 Cli -p 15 -c 'ping 3.3.3.3 source 1.1.1.1 repeat 5'
 ```
 
-R1 and R2 load their startup configs at deploy. R3 runs FRR in a Linux container, so its configuration goes in through vtysh after deploy, the way the recorded run did it. `containerlab deploy --reconfigure` wipes R3's configuration: push `configs/R3.vtysh` again after a redeploy.
+All three routers load their startup configs at deploy. R3 runs on containerlab's `frr` kind, which needs containerlab 0.83 or later, and boots `configs/R3.conf` as its `frr.conf`. Give the sessions about 30 seconds after the deploy returns: SR Linux is the last to come up. `ssh admin@clab-ebgp-three-as-R3` with password `admin` lands in vtysh.
 
 Two details that stop this lab when it is built by hand. SR Linux eBGP imports and exports nothing until a routing policy allows it, so R2 has an accept-all import policy and an export policy for its loopback and the BGP-learned routes. FRR applies the RFC 8212 default to eBGP, so R3 has a permit-all route-map in both directions. The FRR link to SR Linux runs at MTU 1500 (the `exec` line), to match SR Linux.
 
-SSH to R1 as `admin` with password `admin`, the lab default in `configs/R1.cfg`: change it before you expose the lab. You bring the cEOS image yourself: the [Arista README](../../arista/README.md) has where to get it. SR Linux and FRR are public images.
+SSH to R1 as `admin` with password `admin`, the lab default in `configs/R1.cfg`: change it before you expose the lab. You bring the cEOS image yourself: the [Arista README](../../arista/README.md) has where to get it. SR Linux and FRR are public images. R3's image is the one NetPilot labs run: FRR's official containerlab image for 10.7.1 with tcpdump, iperf3, iptables and nftables added.
 
 ## Tested on
 
-The recorded NetPilot run on 2026-11-11: cEOS 4.36.1F, SR Linux (the `latest` tag that day) and FRR 8.4. Both of R2's sessions read established, R1 and R3 each received the other two loopbacks, and the ping from 1.1.1.1 to 3.3.3.3 got 5 of 5 replies with a TTL of 63.
+Deployed as written here on 2026-11-20 with containerlab 0.83.0: cEOS 4.36.1F, SR Linux 25.10.1 (the `latest` tag that day) and FRR 10.7.1. The deploy returned after 49 seconds, and R3's loopback was in R1's table within 30 seconds of that. Both of R2's sessions read established, R1 and R3 each received the other two loopbacks, and the ping from 1.1.1.1 to 3.3.3.3 got 5 of 5 replies with a TTL of 63. A `containerlab deploy --reconfigure` gave the same result.
 
-Changes from the run, for portability: the lab is renamed from `ebgp-3vendor` to `ebgp-three-as`, the fixed management subnet and addresses are dropped (containerlab picks its default), the startup-config paths point at `configs/`, R3's configuration is the one the run pushed through vtysh, and `daemons` and `vtysh.conf` follow what NetPilot writes for an FRR node (bgpd and the other routing daemons on, the integrated config). The run deployed the original files: these portability edits were not redeployed as a package.
+The lab first ran in NetPilot on 2026-11-11 with FRR 8.4 in a plain Linux container, configured through vtysh after the deploy. This version moves R3 to the `frr` kind with the same configuration as a startup file.
 
 ## Build it from one prompt
 
