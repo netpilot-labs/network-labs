@@ -1,0 +1,53 @@
+config system global
+    set hostname FGT1
+end
+config system interface
+    edit port2
+        set vdom root
+        set mode static
+        set ip 192.168.10.1 255.255.255.0
+        set allowaccess ping
+        set alias INSIDE
+    next
+    edit port3
+        set vdom root
+        set mode static
+        set ip 203.0.113.1 255.255.255.0
+        unset allowaccess
+        set alias OUTSIDE
+    next
+end
+config system zone
+    edit INSIDE
+        set interface port2
+    next
+    edit OUTSIDE
+        set interface port3
+    next
+end
+config firewall policy
+    edit 1
+        set name INSIDE-to-OUTSIDE
+        set srcintf INSIDE
+        set dstintf OUTSIDE
+        set srcaddr all
+        set dstaddr all
+        set action accept
+        set schedule always
+        set service ALL
+        set nat enable
+        set logtraffic all
+    next
+    edit 2
+        set name INSIDE-BLOCK-PING
+        set srcintf INSIDE
+        set dstintf OUTSIDE
+        set srcaddr all
+        set dstaddr all
+        set action deny
+        set schedule always
+        set service ALL_ICMP
+        set logtraffic all
+    next
+    move 2 before 1
+end
