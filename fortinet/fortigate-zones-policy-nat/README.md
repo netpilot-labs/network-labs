@@ -75,4 +75,4 @@ The FortiGate VM image runs on a 15-day evaluation licence that starts at first 
 
 ## Build it from one prompt
 
-On NetPilot the same lab builds from one prompt in the browser, on a real FortiGate with nothing installed on your machine: [the prompt](https://github.com/netpilot-labs/example-prompts/blob/main/security/fortigate-zones-policy-nat.md). Tutorial: [Firewall lab: Palo Alto and FortiGate](https://www.netpilot.io/blog/firewall-lab-palo-alto-fortinet).
+On NetPilot the same lab builds from one prompt in the browser, on a real FortiGate with nothing installed on your machine: [the prompt](https://github.com/netpilot-labs/example-prompts/blob/main/security/fortigate-zones-policy-nat.md). Tutorial: [Firewall lab: Palo Alto and FortiGate](https://www.netpilot.io/blog/firewall-lab-palo-alto-fortinet). The recorded run: [FortiGate Lab in Minutes](https://www.youtube.com/watch?v=NTI95FHN6xo).
