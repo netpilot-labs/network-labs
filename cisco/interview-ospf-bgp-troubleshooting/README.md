@@ -26,6 +26,10 @@ The branch is AS 65010 with OSPF area 0 on CORE, EDGE1 and EDGE2. Both edges run
 
 [ANSWER-KEY.md](ANSWER-KEY.md) holds the brief to read aloud, each fault's symptom, the commands that find it, the fix, partial credit and a scoring guide, as the agent wrote it on the recorded run.
 
+## Watch the run
+
+[The Network Engineer Interview AI Can't Fake: 3 Faults on Real Cisco Routers](https://www.youtube.com/watch?v=WDD1Edggfv8) (5:22): the build, the candidate's console on each fault, and the review.
+
 ## Build it from one prompt
 
 [The prompt](https://github.com/netpilot-labs/example-prompts/blob/main/troubleshooting/network-engineer-interview-lab.md) builds this lab in [NetPilot](https://www.netpilot.io/cisco-virtual-lab) on real Cisco IOS, plants the three faults, proves each fix and writes the answer key. A second prompt asks the agent what the candidate changed and whether anything is still broken.
