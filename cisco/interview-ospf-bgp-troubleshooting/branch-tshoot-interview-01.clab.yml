@@ -1,0 +1,45 @@
+# Network engineer troubleshooting interview lab on real Cisco IOS: four Cisco IOL routers and two Linux hosts.
+# A branch (AS 65010, OSPF area 0) with a primary and a backup eBGP circuit to one provider (AS 64500), three faults planted
+# in the startup configs, easy to hard. From a recorded run on Cisco IOL 17.12.1; redeploy to reset it for the next candidate.
+name: branch-tshoot-interview-01
+
+topology:
+  nodes:
+    CORE:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.1
+      startup-config: CORE.partial.cfg
+    EDGE1:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.1
+      startup-config: EDGE1.partial.cfg
+    EDGE2:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.1
+      startup-config: EDGE2.partial.cfg
+    ISP:
+      kind: cisco_iol
+      image: vrnetlab/cisco_iol:17.12.1
+      startup-config: ISP.partial.cfg
+    PC1:
+      kind: linux
+      image: ghcr.io/srl-labs/network-multitool:latest
+      exec:
+        - ip link set eth1 mtu 1500
+        - ip addr add 10.10.10.10/24 dev eth1
+        - ip route add 203.0.113.0/24 via 10.10.10.1
+    INET:
+      kind: linux
+      image: ghcr.io/srl-labs/network-multitool:latest
+      exec:
+        - ip link set eth1 mtu 1500
+        - ip addr add 203.0.113.10/24 dev eth1
+        - ip route add 10.10.0.0/16 via 203.0.113.1
+
+  links:
+    - endpoints: ["CORE:Ethernet0/1", "PC1:eth1"]
+    - endpoints: ["CORE:Ethernet0/2", "EDGE1:Ethernet0/1"]
+    - endpoints: ["CORE:Ethernet0/3", "EDGE2:Ethernet0/1"]
+    - endpoints: ["EDGE1:Ethernet0/2", "ISP:Ethernet0/1"]
+    - endpoints: ["EDGE2:Ethernet0/2", "ISP:Ethernet0/2"]
+    - endpoints: ["ISP:Ethernet0/3", "INET:eth1"]
