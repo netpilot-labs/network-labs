@@ -1,0 +1,21 @@
+name: rp
+topology:
+  kinds:
+    mikrotik_chr:
+      image: mikrotik/chr:7.24.5
+      port-speeds:
+        - {port: 32..33, speed: 25000}
+  nodes:
+    r1:
+      kind: mikrotik_chr
+      startup-config: |
+        /interface bonding add name=bond1 mode=802.3ad slaves=ether32,ether33 lacp-rate=1sec
+        /ip address add address=10.3.0.1/24 interface=bond1
+    r2:
+      kind: mikrotik_chr
+      startup-config: |
+        /interface bonding add name=bond1 mode=802.3ad slaves=ether32,ether33 lacp-rate=1sec
+        /ip address add address=10.3.0.2/24 interface=bond1
+  links:
+    - endpoints: ["r1:ether32", "r2:ether32"]
+    - endpoints: ["r1:ether33", "r2:ether33"]

@@ -1,0 +1,34 @@
+name: ps
+topology:
+  kinds:
+    mikrotik_chr:
+      image: mikrotik/chr:7.24.5
+      port-speeds:
+        - {port: 5, speed: 2500}
+  groups:
+    crs518:
+      kind: mikrotik_chr
+      port-speeds:
+        - {port: 2..3, speed: 25000}
+        - {port: 4..5, speed: 100000}
+  nodes:
+    p1:
+      group: crs518
+    p2:
+      group: crs518
+      port-speeds:
+        - {port: 2, speed: 1000}
+    p3:
+      group: crs518
+      port-speeds: []
+    p4:
+      kind: mikrotik_chr
+  links:
+    - endpoints: ["p1:ether2", "p2:ether2"]
+    - endpoints: ["p1:ether3", "p2:ether3"]
+    - endpoints: ["p1:ether4", "p2:ether4"]
+    - endpoints: ["p1:ether5", "p2:ether5"]
+    - endpoints: ["p3:ether2", "p4:ether2"]
+    - endpoints: ["p3:ether3", "p4:ether3"]
+    - endpoints: ["p3:ether4", "p4:ether4"]
+    - endpoints: ["p3:ether5", "p4:ether5"]
