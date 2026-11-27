@@ -42,7 +42,7 @@ the PR at `~/clab` and one built from `main` at `~/clab-main`.
 
 | Script | What it covers |
 |--------|----------------|
-| `N.sh` | `N.sh main` is the control (r1 lists r2 on `ether1` through management). `N.sh` with the PR: nothing discovered on `ether1`, r2 still seen on `ether2`, the `clab-discovery` policy and its lists created once, `containerlab restart --node`, save then clean redeploy with the default policy and with `static` opted back in. Since `5646b9a4` a run also deletes `c1` `eth4` and makes it again (`containerlab tools veth create`), and every line ends with the data bridge settings as counts: bridge `group_fwd_mask` `0xfff8`, `multicast_snooping` `0`, `disable_ipv6` `1` on `brN`, `tapN` and `ethN`, the `default` `disable_ipv6`, the three `bridge-nf-call-*` (when `br_netfilter` is loaded), IPv6 addresses and IPv6 packets sent on the data devices (`/proc/net/dev_snmp6`), non-permanent FDB entries on the data bridges, LLDP neighbors between the CHRs, IPv6 link-local pings and the launcher's `could not` and `attached` lines. `CHR_TAG` picks the RouterOS version, `BRNF=1` loads `br_netfilter` |
+| `N.sh` | `N.sh main` is the control (r1 lists r2 on `ether1` through management). `N.sh` with the PR: nothing discovered on `ether1`, r2 still seen on `ether2`, the `clab-discovery` policy and its lists created once, `containerlab restart --node`, save then clean redeploy with the default policy and with `static` opted back in. |
 | `X.sh` | Save on a newer RouterOS (`NEW`, default 7.26beta4), deploy the saved files on an older one (`OLD`, default 7.23.8): `X.sh main` or `X.sh` for the PR |
 
 ## Keymat placeholder (containerlab PR #3545)
@@ -51,7 +51,7 @@ Run against the head of srl-labs/containerlab#3545 (`8c69562d`) with `run-3545.s
 
 | Script | What it covers |
 |--------|----------------|
-| `Y.sh` | `Y.sh main` is the control, `Y.sh` runs the PR: repeated exports, `containerlab save`, then an import on a fresh router. Since `5646b9a4` a run also deletes `c1` `eth4` and makes it again (`containerlab tools veth create`), and every line ends with the data bridge settings as counts: bridge `group_fwd_mask` `0xfff8`, `multicast_snooping` `0`, `disable_ipv6` `1` on `brN`, `tapN` and `ethN`, the `default` `disable_ipv6`, the three `bridge-nf-call-*` (when `br_netfilter` is loaded), IPv6 addresses and IPv6 packets sent on the data devices (`/proc/net/dev_snmp6`), non-permanent FDB entries on the data bridges, LLDP neighbors between the CHRs, IPv6 link-local pings and the launcher's `could not` and `attached` lines. `CHR_TAG` picks the RouterOS version, `BRNF=1` loads `br_netfilter` |
+| `Y.sh` | `Y.sh main` is the control, `Y.sh` runs the PR: repeated exports, `containerlab save`, then an import on a fresh router. |
 | `Y2.sh` | When the placeholder appears on `main` with no keymat command: six exports from the moment the node is healthy, then one save right at healthy |
 
 ## Management VRF (containerlab PR #3547)
@@ -60,7 +60,7 @@ Run against the head of srl-labs/containerlab#3547 (`77d24e9d`) with `run-3547.s
 
 | Script | What it covers |
 |--------|----------------|
-| `V.sh` | `ether1` and the services in VRF `mgmt`, v4 and v6 default routes, SSH over IPv6 next to a lab default route, REST from an off-subnet client, SNMP v2c, data plane, service overrides through `containerlab restart --node` and save then redeploy, a user VRF on `ether3`, one SNMP community after redeploy. `V.sh main` prints the control lines. Since `5646b9a4` a run also deletes `c1` `eth4` and makes it again (`containerlab tools veth create`), and every line ends with the data bridge settings as counts: bridge `group_fwd_mask` `0xfff8`, `multicast_snooping` `0`, `disable_ipv6` `1` on `brN`, `tapN` and `ethN`, the `default` `disable_ipv6`, the three `bridge-nf-call-*` (when `br_netfilter` is loaded), IPv6 addresses and IPv6 packets sent on the data devices (`/proc/net/dev_snmp6`), non-permanent FDB entries on the data bridges, LLDP neighbors between the CHRs, IPv6 link-local pings and the launcher's `could not` and `attached` lines. `CHR_TAG` picks the RouterOS version, `BRNF=1` loads `br_netfilter` |
+| `V.sh` | `ether1` and the services in VRF `mgmt`, v4 and v6 default routes, SSH over IPv6 next to a lab default route, REST from an off-subnet client, SNMP v2c, data plane, service overrides through `containerlab restart --node` and save then redeploy, a user VRF on `ether3`, one SNMP community after redeploy. `V.sh main` prints the control lines. |
 | `W.sh` | A node deployed by `main`, then restarted by the PR binary |
 
 ## Reruns on the fixed heads (containerlab PRs #3545, #3546, #3547)
