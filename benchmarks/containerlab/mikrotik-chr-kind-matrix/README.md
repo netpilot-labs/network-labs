@@ -88,13 +88,13 @@ and `run-3568.sh ssh` on another, the PR binary at `~/clab`. `LABEL` names the b
 
 ## LACP and port speeds (containerlab PR #3636)
 
-Run against the head of srl-labs/containerlab#3636 (`af5828c9`) and its merge base on main (`7230048b`), each binary at
+Run against the heads of srl-labs/containerlab#3636 (`af5828c9`, then `9b379435`) and its merge base on main (`7230048b`), each binary at
 `~/clab` on its own host, with `run-3636.sh pr` or `run-3636.sh main`. `prep.sh` loads the `bonding` module and builds
 `bondpeer:1` (Alpine with iproute2) for the Linux peer.
 
 | Script | What it covers |
 |--------|----------------|
-| `lacp.sh` | `L/`: CHR `c1` bonds `ether2`+`ether3` in 802.3ad with a Linux `bond0` and `ether4`+`ether5` with CHR `c2`. Per run: a fresh deploy, `containerlab restart --node c1`, a reboot from inside RouterOS (REST), then `docker restart c1`. Each `RES` line: members collecting and distributing with a partner on every bond (`lacp.py` reads `monitor-slaves` and `/proc/net/bonding/bond0`), the LACP keys, rate and duplex on `ether2`..`ether5`, pings over both bonds, how many bridge ports read `group_fwd_mask` `0x4`, and the launcher's `data NIC speeds` and `could not enable LACP` line counts. `CHR_TAG` picks the RouterOS version |
+| `lacp.sh` | `L/`: CHR `c1` bonds `ether2`+`ether3` in 802.3ad with a Linux `bond0` and `ether4`+`ether5` with CHR `c2`. Per run: a fresh deploy, one Linux member down and back up, `containerlab restart --node c1`, a reboot from inside RouterOS (REST), then `docker restart c1`. Each `RES` line: members collecting and distributing with a partner on every bond (`lacp.py` reads `monitor-slaves` and `/proc/net/bonding/bond0`), the LACP keys, rate and duplex on `ether2`..`ether5`, pings over both bonds, how many data bridge ports read `group_fwd_mask` `0x4` and `learning` `0` (and `br0`'s ports `learning`), and the launcher's `data NIC speeds` and `could not enable LACP` and `could not turn MAC learning off` line counts. `CHR_TAG` picks the RouterOS version |
 | `speeds.sh` | `P/`: `port-speeds` on the kind, a group, a node that replaces the group list, a node with `[]`: the rate RouterOS reports on each port next to QEMU's `-device` speed and the launcher's line. Then five invalid inputs: the error and no container left |
 | `replug.sh`, `replug2.sh` | `Q/`: 32 data NICs (the layout where the launcher re-plugs NICs RouterOS missed), a bond on `ether32`+`ether33` at 25G, and in `replug2.sh` `ether26` at 2.5G. After each reboot from inside RouterOS: the re-plug count, the rate on those ports and LACP |
 | `ad.sh` | `A.sh` and `D.sh` above on the same build, to compare a non-LACP lab between the PR and main |
