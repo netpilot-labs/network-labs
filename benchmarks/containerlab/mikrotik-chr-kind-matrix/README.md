@@ -42,7 +42,7 @@ the PR at `~/clab` and one built from `main` at `~/clab-main`.
 
 | Script | What it covers |
 |--------|----------------|
-| `N.sh` | `N.sh main` is the control (r1 lists r2 on `ether1` through management). `N.sh` with the PR: nothing discovered on `ether1`, r2 still seen on `ether2`, the `clab-discovery` policy and its lists created once, `containerlab restart --node`, save then clean redeploy with the default policy and with `static` opted back in. `CHR_TAG` picks the RouterOS version |
+| `N.sh` | `N.sh main` is the control (r1 lists r2 on `ether1` through management). `N.sh` with the PR: nothing discovered on `ether1`, r2 still seen on `ether2`, the `clab-discovery` policy and its lists created once, `containerlab restart --node`, save then clean redeploy with the default policy and with `static` opted back in. Since `5646b9a4` a run also deletes `c1` `eth4` and makes it again (`containerlab tools veth create`), and every line ends with the data bridge settings as counts: bridge `group_fwd_mask` `0xfff8`, `multicast_snooping` `0`, `disable_ipv6` `1` on `brN`, `tapN` and `ethN`, the `default` `disable_ipv6`, the three `bridge-nf-call-*` (when `br_netfilter` is loaded), IPv6 addresses and IPv6 packets sent on the data devices (`/proc/net/dev_snmp6`), non-permanent FDB entries on the data bridges, LLDP neighbors between the CHRs, IPv6 link-local pings and the launcher's `could not` and `attached` lines. `CHR_TAG` picks the RouterOS version, `BRNF=1` loads `br_netfilter` |
 | `X.sh` | Save on a newer RouterOS (`NEW`, default 7.26beta4), deploy the saved files on an older one (`OLD`, default 7.23.8): `X.sh main` or `X.sh` for the PR |
 
 ## Keymat placeholder (containerlab PR #3545)
@@ -51,7 +51,7 @@ Run against the head of srl-labs/containerlab#3545 (`8c69562d`) with `run-3545.s
 
 | Script | What it covers |
 |--------|----------------|
-| `Y.sh` | `Y.sh main` is the control, `Y.sh` runs the PR: repeated exports, `containerlab save`, then an import on a fresh router. `CHR_TAG` picks the RouterOS version |
+| `Y.sh` | `Y.sh main` is the control, `Y.sh` runs the PR: repeated exports, `containerlab save`, then an import on a fresh router. Since `5646b9a4` a run also deletes `c1` `eth4` and makes it again (`containerlab tools veth create`), and every line ends with the data bridge settings as counts: bridge `group_fwd_mask` `0xfff8`, `multicast_snooping` `0`, `disable_ipv6` `1` on `brN`, `tapN` and `ethN`, the `default` `disable_ipv6`, the three `bridge-nf-call-*` (when `br_netfilter` is loaded), IPv6 addresses and IPv6 packets sent on the data devices (`/proc/net/dev_snmp6`), non-permanent FDB entries on the data bridges, LLDP neighbors between the CHRs, IPv6 link-local pings and the launcher's `could not` and `attached` lines. `CHR_TAG` picks the RouterOS version, `BRNF=1` loads `br_netfilter` |
 | `Y2.sh` | When the placeholder appears on `main` with no keymat command: six exports from the moment the node is healthy, then one save right at healthy |
 
 ## Management VRF (containerlab PR #3547)
@@ -60,7 +60,7 @@ Run against the head of srl-labs/containerlab#3547 (`77d24e9d`) with `run-3547.s
 
 | Script | What it covers |
 |--------|----------------|
-| `V.sh` | `ether1` and the services in VRF `mgmt`, v4 and v6 default routes, SSH over IPv6 next to a lab default route, REST from an off-subnet client, SNMP v2c, data plane, service overrides through `containerlab restart --node` and save then redeploy, a user VRF on `ether3`, one SNMP community after redeploy. `V.sh main` prints the control lines. `CHR_TAG` picks the RouterOS version |
+| `V.sh` | `ether1` and the services in VRF `mgmt`, v4 and v6 default routes, SSH over IPv6 next to a lab default route, REST from an off-subnet client, SNMP v2c, data plane, service overrides through `containerlab restart --node` and save then redeploy, a user VRF on `ether3`, one SNMP community after redeploy. `V.sh main` prints the control lines. Since `5646b9a4` a run also deletes `c1` `eth4` and makes it again (`containerlab tools veth create`), and every line ends with the data bridge settings as counts: bridge `group_fwd_mask` `0xfff8`, `multicast_snooping` `0`, `disable_ipv6` `1` on `brN`, `tapN` and `ethN`, the `default` `disable_ipv6`, the three `bridge-nf-call-*` (when `br_netfilter` is loaded), IPv6 addresses and IPv6 packets sent on the data devices (`/proc/net/dev_snmp6`), non-permanent FDB entries on the data bridges, LLDP neighbors between the CHRs, IPv6 link-local pings and the launcher's `could not` and `attached` lines. `CHR_TAG` picks the RouterOS version, `BRNF=1` loads `br_netfilter` |
 | `W.sh` | A node deployed by `main`, then restarted by the PR binary |
 
 ## Reruns on the fixed heads (containerlab PRs #3545, #3546, #3547)
@@ -88,13 +88,15 @@ and `run-3568.sh ssh` on another, the PR binary at `~/clab`. `LABEL` names the b
 
 ## LACP and port speeds (containerlab PR #3636)
 
-Run against the heads of srl-labs/containerlab#3636 (`af5828c9`, then `9b379435`) and its merge base on main (`7230048b`), each binary at
-`~/clab` on its own host, with `run-3636.sh pr` or `run-3636.sh main`. `prep.sh` loads the `bonding` module and builds
+Run against the heads of srl-labs/containerlab#3636 (`af5828c9`, `9b379435`, then `5646b9a4`) and its merge base on main (`7230048b`), each binary at
+`~/clab` on its own host, with `run-3636.sh pr` or `run-3636.sh main`, or split over hosts with `run-3636b.sh <label> a|b|c|n|v`
+(`n` loads `br_netfilter` first, `v` runs `v6tx.sh`). `prep.sh` loads the `bonding` module and builds
 `bondpeer:1` (Alpine with iproute2) for the Linux peer.
 
 | Script | What it covers |
 |--------|----------------|
-| `lacp.sh` | `L/`: CHR `c1` bonds `ether2`+`ether3` in 802.3ad with a Linux `bond0` and `ether4`+`ether5` with CHR `c2`. Per run: a fresh deploy, one Linux member down and back up, `containerlab restart --node c1`, a reboot from inside RouterOS (REST), then `docker restart c1`. Each `RES` line: members collecting and distributing with a partner on every bond (`lacp.py` reads `monitor-slaves` and `/proc/net/bonding/bond0`), the LACP keys, rate and duplex on `ether2`..`ether5`, pings over both bonds, how many data bridge ports read `group_fwd_mask` `0x4` and `learning` `0` (and `br0`'s ports `learning`), and the launcher's `data NIC speeds` and `could not enable LACP` and `could not turn MAC learning off` line counts. `CHR_TAG` picks the RouterOS version |
+| `lacp.sh` | `L/`: CHR `c1` bonds `ether2`+`ether3` in 802.3ad with a Linux `bond0` and `ether4`+`ether5` with CHR `c2`. Per run: a fresh deploy, one Linux member down and back up, `containerlab restart --node c1`, a reboot from inside RouterOS (REST), then `docker restart c1`. Each `RES` line: members collecting and distributing with a partner on every bond (`lacp.py` reads `monitor-slaves` and `/proc/net/bonding/bond0`), the LACP keys, rate and duplex on `ether2`..`ether5`, pings over both bonds, how many data bridge ports read `group_fwd_mask` `0x4` and `learning` `0` (and `br0`'s ports `learning`), and the launcher's `data NIC speeds` and `could not enable LACP` and `could not turn MAC learning off` line counts. Since `5646b9a4` a run also deletes `c1` `eth4` and makes it again (`containerlab tools veth create`), and every line ends with the data bridge settings as counts: bridge `group_fwd_mask` `0xfff8`, `multicast_snooping` `0`, `disable_ipv6` `1` on `brN`, `tapN` and `ethN`, the `default` `disable_ipv6`, the three `bridge-nf-call-*` (when `br_netfilter` is loaded), IPv6 addresses and IPv6 packets sent on the data devices (`/proc/net/dev_snmp6`), non-permanent FDB entries on the data bridges, LLDP neighbors between the CHRs, IPv6 link-local pings and the launcher's `could not` and `attached` lines. `CHR_TAG` picks the RouterOS version, `BRNF=1` loads `br_netfilter` |
+| `v6tx.sh` | `L/`: which CHR data devices (`brN`, `tapN`, `ethN`) send IPv6 of their own after a fresh deploy and after `containerlab restart --node c1`: each device with a nonzero `Ip6OutRequests` in `/proc/net/dev_snmp6`, with its DAD solicitations, MLDv2 reports and router solicitations |
 | `speeds.sh` | `P/`: `port-speeds` on the kind, a group, a node that replaces the group list, a node with `[]`: the rate RouterOS reports on each port next to QEMU's `-device` speed and the launcher's line. Then five invalid inputs: the error and no container left |
 | `replug.sh`, `replug2.sh` | `Q/`: 32 data NICs (the layout where the launcher re-plugs NICs RouterOS missed), a bond on `ether32`+`ether33` at 25G, and in `replug2.sh` `ether26` at 2.5G. After each reboot from inside RouterOS: the re-plug count, the rate on those ports and LACP |
 | `ad.sh` | `A.sh` and `D.sh` above on the same build, to compare a non-LACP lab between the PR and main |
